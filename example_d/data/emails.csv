@@ -1,0 +1,127 @@
+id,email,expected_request_type,expected_reply_to,expected_first_name,expected_last_name,expected_address,expected_phone,note
+1,"From: Marcus Delgado <marcus.delgado@example.com>
+Subject: Remove my information immediately
+
+This is the THIRD time I'm asking. Delete everything you have on me. I never signed up for any of this and I want all my personal data ERASED from your systems. Now.
+
+Marcus Delgado
+842 Hollow Creek Rd, Danforth, OH 44112
+(555) 019-2837",delete,marcus.delgado@example.com,Marcus,Delgado,"842 Hollow Creek Rd, Danforth, OH 44112",(555) 019-2837,angry tone; all fields present
+2,"From: Priya Raman <priya.raman@examplemail.com>
+Subject: A small request regarding my personal data
+
+Hello, I do hope you're having a lovely day. Whenever you have a spare moment, I would be ever so grateful if you could kindly send me a copy of all the personal information you currently hold about me. Thank you so very much for your time and your help with this.
+
+Warmest regards,
+Priya Raman
+17 Maplewood Lane, Apt 3, Kestrel City, TX 78502
+(555) 019-4471",know,priya.raman@examplemail.com,Priya,Raman,"17 Maplewood Lane, Apt 3, Kestrel City, TX 78502",(555) 019-4471,overly polite; right-to-know; all fields present
+3,"From: Greg Holt <gholt@example.org>
+Subject: opt out
+
+Delete my account and everything you have on me. Thanks.
+Greg Holt, 3390 Birchwood Ave, Selby, WA 98221, 555-0163",delete,gholt@example.org,Greg,Holt,"3390 Birchwood Ave, Selby, WA 98221",555-0163,terse two-liner; all fields present
+4,"From: Eleanor Voss <e.voss@examplemail.net>
+Subject: what do you have on me
+
+So I was chatting with my neighbor the other day and she mentioned that companies keep all sorts of files on people, and honestly it got me thinking, because I've been getting a lot of odd mail lately and I really would just like to understand what exactly it is that you have on record for me, all of it if that's possible, so I can wrap my head around where all of this is coming from. I'm at 6 Tanager Court, Millbrook, ME 04008 and you can reach me at (555) 019-7756 if that's easier.
+
+Eleanor Voss",know,e.voss@examplemail.net,Eleanor,Voss,"6 Tanager Court, Millbrook, ME 04008",(555) 019-7756,rambling single paragraph; right-to-know
+5,"From: Tomas Okafor <t.okafor@northgate-industrial.example.com>
+Subject: data deletion request
+
+I'm sending this from my work account, but please don't reply here - this inbox gets monitored and I'd rather keep this personal. Reply to me at tomasokafor@example.net instead.
+
+Please delete all of the personal data you hold on me.
+
+Tomas Okafor
+221 Founders Way, Loxley, PA 19040
+(555) 019-3312",delete,tomasokafor@example.net,Tomas,Okafor,"221 Founders Way, Loxley, PA 19040",(555) 019-3312,reply-to trap: From is work address; real reply-to stated in body
+6,"From: Executive Assistant <assistant@brightfold.example.com>
+Subject: Data request on behalf of Ms. Foster
+
+Hello,
+
+I'm writing on behalf of Ms. Diane Foster, who would like a copy of the personal information your company holds about her. Please direct your response to her directly.
+
+Best,
+J. Alvarez
+Office of Diane Foster
+
+--
+Diane Foster
+Principal
+dfoster@example.org
+109 Rue Verte, Apt 12, Harwick, NJ 07001
+(555) 019-6690",know,dfoster@example.org,Diane,Foster,"109 Rue Verte, Apt 12, Harwick, NJ 07001",(555) 019-6690,reply-to trap: From is assistant; real reply-to buried in signature
+7,"From: James Whitfield <jwhitfield@example.com>
+Subject: delete me
+
+Hey, this is James Whitfield - most folks know me as Jimbo. I want you to delete all the data you've got on me, please.
+
+Cheers,
+Jimbo
+55 Preston Row, Aldermarsh, NV 89044
+(555) 019-2201",delete,jwhitfield@example.com,James,Whitfield,"55 Preston Row, Aldermarsh, NV 89044",(555) 019-2201,nickname trap: signs off 'Jimbo' but legal name James Whitfield is in the body; expected_first_name uses the legal name
+8,"From: Nadia Brennan <nadia.b@examplemail.com>
+Subject: Please remove my data
+
+Hi there,
+
+I'd like all of my personal information deleted from your records. I've moved recently, so for reference my current details are below.
+
+Nadia Brennan
+88 Corliss Street, Weatherby, IL 60622",delete,nadia.b@examplemail.com,Nadia,Brennan,"88 Corliss Street, Weatherby, IL 60622",,missing-data: no phone number anywhere; expected_phone left blank
+9,"From: sunny_k@example.com
+Subject: my data
+
+hey can you delete whatever info you've got on me? really don't want to be on any lists anymore.
+thanks
+sunny",delete,sunny_k@example.com,Sunny,,,,"missing-data: only a first name and email; no last name, address, or phone"
+10,"From: Reggie Santos <r.santos@example.net>
+Subject: my information
+
+I don't want you keeping my personal information anymore. Can you sort that out for me?
+
+Reggie Santos
+14 Dovecote Lane, Ashby Falls, OR 97501
+(555) 019-8123",delete,r.santos@example.net,Reggie,Santos,"14 Dovecote Lane, Ashby Falls, OR 97501",(555) 019-8123,"ambiguous delete-vs-know: 'don't want you keeping my info anymore' could read as opt-out, but most defensibly maps to deletion"
+11,"From: Carla Nguyen <carla.nguyen@examplemail.com>
+Subject: two requests
+
+Hi,
+
+First, I'd like to know exactly what personal data you have on file for me. Second, once you've shown me, I want all of it deleted.
+
+Thanks,
+Carla Nguyen
+730 Ashfield Blvd, Renton Heights, CO 80014
+(555) 019-5540",delete,carla.nguyen@examplemail.com,Carla,Nguyen,"730 Ashfield Blvd, Renton Heights, CO 80014",(555) 019-5540,"mixed request: asks to KNOW then DELETE; ground truth set to 'delete' as the ultimate action (a 'know' answer may also be defensible)"
+12,"From: Derek Paulson <d.paulson@example.com>
+Subject: Fwd: Re: Re: inquiry
+
+---------- Forwarded message ---------
+From: Derek Paulson <d.paulson@example.com>
+Date: Tue, Jun 24, 2026
+Subject: Re: Re: inquiry
+To: Support <support@megacorp.example.com>
+
+
+hi -   sorry for the mess of a thread below. bottom line, i want you to DELETE all of my personal data. you can reach me at this same address.
+
+thanks,
+Derek
+
+
+> On Jun 23, 2026, support@megacorp.example.com wrote:
+> Thanks for reaching out! Can you confirm your request?
+>
+>> On Jun 22, 2026, Derek Paulson wrote:
+>> hello i have a question about my privacy
+>>
+
+Derek Paulson
+Senior Logistics Coordinator  |  Megacorp Industries LLC
+Direct: (555) 019-0074   |   Mobile: (555) 019-0088
+1400 Corporate Plaza, Suite 900, Fenwick, GA 30301
+This email and any attachments are confidential and intended solely for the addressee. If you have received this message in error, please notify the sender and delete all copies. Megacorp Industries LLC does not accept liability for any damage caused by this email.",delete,d.paulson@example.com,Derek,Paulson,"1400 Corporate Plaza, Suite 900, Fenwick, GA 30301",(555) 019-0074,"messy forwarded email with quoted-reply junk and corporate signature noise; signature has two numbers (Direct + Mobile), Direct line used as expected_phone"

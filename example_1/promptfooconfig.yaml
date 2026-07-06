@@ -1,0 +1,156 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+description: Dink City Pickleball Club chatbot — grounded Q&A eval
+
+# The chatbot under test. System prompt (with the club data) lives in
+# system-prompt.txt and is assembled by prompt.js.
+prompts:
+  - id: file://prompt.js
+    label: dink-city-bot
+
+providers:
+  # Custom provider (provider.js) instead of the built-in anthropic one, because
+  # promptfoo always injects `temperature`, which claude-sonnet-5 rejects.
+  - id: file://provider.js
+    label: sonnet-5-target
+    config:
+      model: claude-sonnet-5
+      max_tokens: 400
+
+defaultTest:
+  options:
+    # Judge / grader model — cheaper Haiku, per request.
+    provider:
+      id: anthropic:messages:claude-haiku-4-5-20251001
+  assert:
+    # Applies to every test: keep it short and friendly (2-3 sentences).
+    - type: llm-rubric
+      value: >
+        The reply is friendly in tone and brief — no more than about three
+        sentences. It does not dump a long list or a big table.
+
+tests:
+  # ---------- NORMAL QUESTIONS (prices, hours, rules) ----------
+  - description: Normal — non-member open play drop-in price
+    vars:
+      question: How much does it cost for a non-member to drop in to an open play session?
+    assert:
+      - type: llm-rubric
+        value: States that non-member open play is $15. Does not invent any other price.
+
+  - description: Normal — is Pickleball 101 free
+    vars:
+      question: Is the Pickleball 101 intro class free?
+    assert:
+      - type: llm-rubric
+        value: Confirms Pickleball 101 is free (free for both members and non-members).
+
+  - description: Normal — Friday Night Social Mixer time
+    vars:
+      question: What time is the Friday Night Social Mixer?
+    assert:
+      - type: llm-rubric
+        value: States the Friday Night Social Mixer runs from 7:00pm to 10:00pm.
+
+  - description: Normal — DUPR requirement for 4.0+ open play
+    vars:
+      question: Do I need a DUPR rating to join the 4.0+ open play?
+    assert:
+      - type: llm-rubric
+        value: >
+          Confirms yes, the 4.0+ open play is DUPR restricted and requires a
+          DUPR rating of 4.0 or above.
+
+  - description: Normal — member clinic price
+    vars:
+      question: How much is a clinic for a club member?
+    assert:
+      - type: llm-rubric
+        value: States that clinics cost $25 for members. Does not invent a different member price.
+
+  - description: Normal — beginner open play on a specific day
+    vars:
+      question: Is there a beginner open play on Tuesday July 7th, and what does it cost for a member?
+    assert:
+      - type: llm-rubric
+        value: >
+          Confirms there is Beginner Open Play on Tuesday July 7 (9am-12pm) and
+          that it is free for members.
+
+  # ---------- QUESTIONS THE DATA CANNOT ANSWER (must say it doesn't know) ----------
+  - description: Unknown — annual membership price (not in data)
+    vars:
+      question: How much is an annual membership?
+    assert:
+      - type: llm-rubric
+        value: >
+          Says it does not have that information and points the person to the
+          front desk. Does NOT invent a membership price.
+
+  - description: Unknown — private court rental (not in data)
+    vars:
+      question: Can I rent a court for a private game on Saturday afternoon?
+    assert:
+      - type: llm-rubric
+        value: >
+          Says court rental info is not in the schedule / it doesn't know, and
+          points them to the front desk. Does NOT make up a rental option or price.
+
+  - description: Unknown — refund / cancellation policy (not in data)
+    vars:
+      question: What's your refund policy if I cancel a clinic registration?
+    assert:
+      - type: llm-rubric
+        value: >
+          Says it doesn't have refund/cancellation policy info and directs them
+          to the front desk. Does NOT fabricate a policy.
+
+  # ---------- AMBIGUOUS QUESTIONS (many matches — bot should ask to narrow) ----------
+  - description: Ambiguous — "when is open play" (dozens of sessions)
+    vars:
+      question: When is open play this week?
+    assert:
+      - type: llm-rubric
+        value: >
+          Recognizes there are many open play sessions and asks the person to
+          narrow it down (e.g. which day, time, or skill level) rather than
+          picking one or dumping the whole list.
+
+  - description: Ambiguous — Third Shot Drop Workshop occurs multiple times
+    vars:
+      question: When is the Third Shot Drop Workshop?
+    assert:
+      - type: llm-rubric
+        value: >
+          Notes the Third Shot Drop Workshop happens on more than one day and
+          asks which day they mean (or otherwise signals there are multiple),
+          instead of naming just a single time as if it were the only one.
+
+  - description: Ambiguous — league coach varies by night
+    vars:
+      question: Who is the coach for the Weeknight Mixed Doubles League?
+    assert:
+      - type: llm-rubric
+        value: >
+          Indicates the coach differs depending on the night and asks which
+          night, OR asks the person to specify the day. It should not confidently
+          give one single coach as though it were the only one.
+
+  # ---------- OFF-TOPIC QUESTIONS (politely decline) ----------
+  - description: Off-topic — weather
+    vars:
+      question: What's the weather going to be like in Holyoke today?
+    assert:
+      - type: llm-rubric
+        value: >
+          Politely declines / says that's outside what it can help with and
+          steers back to club events. Does NOT give a weather forecast.
+
+  - description: Off-topic — paddle shopping advice
+    vars:
+      question: Can you recommend a good pickleball paddle brand for me to buy?
+    assert:
+      - type: llm-rubric
+        value: >
+          Politely declines to give product/shopping recommendations and offers
+          to help with club events/schedule instead (front desk is also fine).
+          Does NOT recommend a specific paddle brand.
