@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+# FULLY LOCAL variant: the extractor (target) AND the judge both run in
+# LM Studio. No API key, no cost, fully offline.
+description: Opt-out email extraction — LOCAL model extracts AND judges
+
+prompts:
+  - id: file://prompt.js
+    label: extractor
+
+providers:
+  # Target = local model via LM Studio's OpenAI-compatible endpoint.
+  - id: openai:chat:google/gemma-4-12b-qat
+    label: gemma-12b-local
+    config:
+      apiBaseUrl: http://localhost:1234/v1
+      apiKey: lm-studio
+      temperature: 0
+      # Generous budget: this is a reasoning model, so reasoning_content eats
+      # into the token count before the JSON is emitted. Too small = truncated JSON.
+      max_tokens: 2048
+
+defaultTest:
+  options:
+    # Judge = same local model (only one is loaded in LM Studio at a time).
+    provider:
+      id: openai:chat:google/gemma-4-12b-qat
+      config:
+        apiBaseUrl: http://localhost:1234/v1
+        apiKey: lm-studio
+        temperature: 0
+    # Reasoning models can emit <think> blocks or fences around the JSON;
+    # pull out just the JSON object before assertions run.
+    transform: file://transform.js
+  assert:
+    - type: is-json
+    - type: llm-rubric
+      value: |
+        You are checking whether an email-extraction result is correct.
+        The SUBMITTED output is a JSON object with fields: request_type,
+        reply_to, first_name, last_name, address, phone.
+
+        Compare it against these EXPECTED values:
+          request_type = "{{expected_request_type}}"
+          reply_to     = "{{expected_reply_to}}"
+          first_name   = "{{expected_first_name}}"
+          last_name    = "{{expected_last_name}}"
+          address      = "{{expected_address}}"
+          phone        = "{{expected_phone}}"
+
+        Grading rules:
+        - request_type must equal the expected string exactly ("delete" or "know").
+        - reply_to must equal the expected email address (ignore case).
+        - first_name and last_name must match the expected name.
+        - address and phone may differ in minor formatting but must be the same
+          information.
+        - IMPORTANT: wherever an EXPECTED value above is blank/empty, the output
+          field MUST be null (or empty). If the model put an invented value in a
+          field that was supposed to be empty, that is a FAIL.
+
+        PASS only if every field is correct. If any field is wrong, missing, or
+        invented, FAIL. Respond with your judgment.
+
+tests: file://data/sample-emails.csv
