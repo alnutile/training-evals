@@ -1,0 +1,2466 @@
+{
+  "evalId": "eval-qaf-2026-07-06T00:34:53",
+  "results": {
+    "version": 3,
+    "timestamp": "2026-07-06T00:34:53.758Z",
+    "prompts": [
+      {
+        "raw": "function ({ vars }) {\n  return [\n    { role: 'system', content: systemPrompt },\n    { role: 'user', content: `Extract the fields from this email:\\n\\n${vars.email}` },\n  ];\n}",
+        "label": "extractor",
+        "config": {},
+        "id": "7488d73850bf2009e6762d270ba53bb4e2f88ec77d3dcebeeed21ebac43dca24",
+        "provider": "sonnet-5-target",
+        "metrics": {
+          "score": 12,
+          "testPassCount": 12,
+          "testFailCount": 0,
+          "testErrorCount": 0,
+          "assertPassCount": 24,
+          "assertFailCount": 0,
+          "totalLatencyMs": 22137,
+          "tokenUsage": {
+            "prompt": 11087,
+            "completion": 1119,
+            "cached": 0,
+            "total": 12206,
+            "numRequests": 12,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            },
+            "assertions": {
+              "total": 7248,
+              "prompt": 6611,
+              "completion": 637,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0,
+                "cacheReadInputTokens": 0,
+                "cacheCreationInputTokens": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "namedScoreWeights": {},
+          "cost": 0
+        }
+      }
+    ],
+    "results": [
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 585,
+            "prompt": 559,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "is-json"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "The request_type field is correct.",
+              "tokensUsed": {
+                "total": 585,
+                "prompt": 559,
+                "completion": 26,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "connection": "keep-alive",
+                    "content-length": "685",
+                    "content-type": "application/json; charset=utf-8",
+                    "date": "Mon, 06 Jul 2026 00:35:18 GMT",
+                    "etag": "W/\"2ad-kVgP18BR2JTWUT3oHTJQyamClLE\"",
+                    "keep-alive": "timeout=5",
+                    "x-powered-by": "Express"
+                  }
+                },
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n{\\\"request_type\\\":\\\"delete\\\",\\\"reply_to\\\":\\\"marcus.delgado@example.com\\\",\\\"first_name\\\":\\\"Marcus\\\",\\\"last_name\\\":\\\"Delgado\\\",\\\"address\\\":\\\"842 Hollow Creek Rd, Danforth, OH 44112\\\",\\\"phone\\\":\\\"(555) 019-2837\\\"}\\n</Output>\\n<Rubric>\\nYou are checking whether an email-extraction result is correct.\\nThe SUBMITTED output is a JSON object with fields: request_type,\\nreply_to, first_name, last_name, address, phone.\\n\\nCompare it against these EXPECTED values:\\n  request_type = \\\"delete\\\"\\n  reply_to     = \\\"marcus.delgado@example.com\\\"\\n  first_name   = \\\"Marcus\\\"\\n  last_name    = \\\"Delgado\\\"\\n  address      = \\\"842 Hollow Creek Rd, Danforth, OH 44112\\\"\\n  phone        = \\\"(555) 019-2837\\\"\\n\\nGrading rules:\\n- request_type must equal the expected string exactly (\\\"delete\\\" or \\\"know\\\").\\n- reply_to must equal the expected email address (ignore case).\\n- first_name and last_name must match the expected name.\\n- address and phone may differ in minor formatting but must be the same\\n  information.\\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\\n  field MUST be null (or empty). If the model put an invented value in a\\n  field that was supposed to be empty, that is a FAIL.\\n\\nPASS only if every field is correct. If any field is wrong, missing, or\\ninvented, FAIL. Respond with your judgment.\\n\\n</Rubric>\"}]",
+                "renderedAssertionValue": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"delete\"\n  reply_to     = \"marcus.delgado@example.com\"\n  first_name   = \"Marcus\"\n  last_name    = \"Delgado\"\n  address      = \"842 Hollow Creek Rd, Danforth, OH 44112\"\n  phone        = \"(555) 019-2837\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              }
+            }
+          ]
+        },
+        "id": "7ccfb87b-69d1-4d2d-99d2-100b95c3e6eb",
+        "latencyMs": 1645,
+        "namedScores": {},
+        "prompt": {
+          "raw": "[{\"role\":\"system\",\"content\":\"You extract structured data from privacy opt-out emails. You are given the full text of one email. Return ONLY a single JSON object (no prose, no markdown, no code fences) with exactly these fields:\\n\\n{\\n  \\\"request_type\\\": \\\"delete\\\" | \\\"know\\\",\\n  \\\"reply_to\\\": string,\\n  \\\"first_name\\\": string | null,\\n  \\\"last_name\\\": string | null,\\n  \\\"address\\\": string | null,\\n  \\\"phone\\\": string | null\\n}\\n\\n## Field rules\\n\\nrequest_type — Use EXACTLY one of the two strings \\\"delete\\\" or \\\"know\\\", nothing else.\\n  - \\\"delete\\\" = the person wants their personal data erased / removed / deleted / to stop being kept.\\n  - \\\"know\\\" = the person wants to see, receive, or be told what personal data you hold about them (a right-to-access / right-to-know request).\\n  - If the email asks to KNOW first and then DELETE, treat the ultimate action as \\\"delete\\\".\\n  - Vague opt-out language like \\\"I don't want you keeping my information anymore\\\" maps to \\\"delete\\\".\\n\\nreply_to — The single best email address to reply to.\\n  - This is NOT always the \\\"From:\\\" address. Read the BODY and the SIGNATURE.\\n  - If the writer explicitly says to reply to a different address, use that one.\\n  - If the email is sent by an assistant on behalf of someone else, use the data subject's own address from the signature, not the sender's.\\n  - For a forwarded/quoted thread, use the address of the person actually making the request.\\n\\nfirst_name / last_name — The data subject's real/legal name.\\n  - Prefer the legal name that appears in the body or signature over a nickname or sign-off. (e.g. if the body says \\\"James Whitfield\\\" but they sign \\\"Jimbo\\\", the first name is \\\"James\\\".)\\n  - If only a single first name is available and no last name, set last_name to null.\\n\\naddress — The full mailing/street address if present, otherwise null.\\n\\nphone — The phone number if present, otherwise null.\\n  - If a signature lists more than one number (e.g. a direct line and a mobile), use the primary/direct line.\\n\\n## Absolute rules\\n- Any field not present in the email MUST be null. NEVER invent, guess, or infer data that is not in the email. A missing phone number stays null. A missing last name stays null.\\n- reply_to and request_type will always be present; the other four may be null.\\n- Output the raw JSON object only — no explanation, no ```json fences.\\n\"},{\"role\":\"user\",\"content\":\"Extract the fields from this email:\\n\\nFrom: Marcus Delgado <marcus.delgado@example.com>\\nSubject: Remove my information immediately\\n\\nThis is the THIRD time I'm asking. Delete everything you have on me. I never signed up for any of this and I want all my personal data ERASED from your systems. Now.\\n\\nMarcus Delgado\\n842 Hollow Creek Rd, Danforth, OH 44112\\n(555) 019-2837\"}]",
+          "label": "extractor",
+          "config": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          }
+        },
+        "promptId": "7488d73850bf2009e6762d270ba53bb4e2f88ec77d3dcebeeed21ebac43dca24",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://provider.js",
+          "label": "sonnet-5-target"
+        },
+        "response": {
+          "output": "{\"request_type\": \"delete\", \"reply_to\": \"marcus.delgado@example.com\", \"first_name\": \"Marcus\", \"last_name\": \"Delgado\", \"address\": \"842 Hollow Creek Rd, Danforth, OH 44112\", \"phone\": \"(555) 019-2837\"}",
+          "tokenUsage": {
+            "prompt": 901,
+            "completion": 96,
+            "total": 997
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "id": "1",
+            "email": "From: Marcus Delgado <marcus.delgado@example.com>\nSubject: Remove my information immediately\n\nThis is the THIRD time I'm asking. Delete everything you have on me. I never signed up for any of this and I want all my personal data ERASED from your systems. Now.\n\nMarcus Delgado\n842 Hollow Creek Rd, Danforth, OH 44112\n(555) 019-2837",
+            "expected_request_type": "delete",
+            "expected_reply_to": "marcus.delgado@example.com",
+            "expected_first_name": "Marcus",
+            "expected_last_name": "Delgado",
+            "expected_address": "842 Hollow Creek Rd, Danforth, OH 44112",
+            "expected_phone": "(555) 019-2837",
+            "note": "angry tone; all fields present"
+          },
+          "assert": [
+            {
+              "type": "is-json"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+            }
+          ],
+          "options": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          },
+          "description": "Row #1",
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "tokenUsage": {
+          "prompt": 901,
+          "completion": 96,
+          "cached": 0,
+          "total": 997,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 585,
+            "prompt": 559,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "id": "1",
+          "email": "From: Marcus Delgado <marcus.delgado@example.com>\nSubject: Remove my information immediately\n\nThis is the THIRD time I'm asking. Delete everything you have on me. I never signed up for any of this and I want all my personal data ERASED from your systems. Now.\n\nMarcus Delgado\n842 Hollow Creek Rd, Danforth, OH 44112\n(555) 019-2837",
+          "expected_request_type": "delete",
+          "expected_reply_to": "marcus.delgado@example.com",
+          "expected_first_name": "Marcus",
+          "expected_last_name": "Delgado",
+          "expected_address": "842 Hollow Creek Rd, Danforth, OH 44112",
+          "expected_phone": "(555) 019-2837",
+          "note": "angry tone; all fields present"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 595,
+            "prompt": 569,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "is-json"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "The request_type field is correct.",
+              "tokensUsed": {
+                "total": 595,
+                "prompt": 569,
+                "completion": 26,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "connection": "keep-alive",
+                    "content-length": "686",
+                    "content-type": "application/json; charset=utf-8",
+                    "date": "Mon, 06 Jul 2026 00:35:18 GMT",
+                    "etag": "W/\"2ae-D2MVV6fh8gFXWDvOmnECliYA9mY\"",
+                    "keep-alive": "timeout=5",
+                    "x-powered-by": "Express"
+                  }
+                },
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n{\\\"request_type\\\":\\\"know\\\",\\\"reply_to\\\":\\\"priya.raman@examplemail.com\\\",\\\"first_name\\\":\\\"Priya\\\",\\\"last_name\\\":\\\"Raman\\\",\\\"address\\\":\\\"17 Maplewood Lane, Apt 3, Kestrel City, TX 78502\\\",\\\"phone\\\":\\\"(555) 019-4471\\\"}\\n</Output>\\n<Rubric>\\nYou are checking whether an email-extraction result is correct.\\nThe SUBMITTED output is a JSON object with fields: request_type,\\nreply_to, first_name, last_name, address, phone.\\n\\nCompare it against these EXPECTED values:\\n  request_type = \\\"know\\\"\\n  reply_to     = \\\"priya.raman@examplemail.com\\\"\\n  first_name   = \\\"Priya\\\"\\n  last_name    = \\\"Raman\\\"\\n  address      = \\\"17 Maplewood Lane, Apt 3, Kestrel City, TX 78502\\\"\\n  phone        = \\\"(555) 019-4471\\\"\\n\\nGrading rules:\\n- request_type must equal the expected string exactly (\\\"delete\\\" or \\\"know\\\").\\n- reply_to must equal the expected email address (ignore case).\\n- first_name and last_name must match the expected name.\\n- address and phone may differ in minor formatting but must be the same\\n  information.\\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\\n  field MUST be null (or empty). If the model put an invented value in a\\n  field that was supposed to be empty, that is a FAIL.\\n\\nPASS only if every field is correct. If any field is wrong, missing, or\\ninvented, FAIL. Respond with your judgment.\\n\\n</Rubric>\"}]",
+                "renderedAssertionValue": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"know\"\n  reply_to     = \"priya.raman@examplemail.com\"\n  first_name   = \"Priya\"\n  last_name    = \"Raman\"\n  address      = \"17 Maplewood Lane, Apt 3, Kestrel City, TX 78502\"\n  phone        = \"(555) 019-4471\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              }
+            }
+          ]
+        },
+        "id": "62d55977-5b06-4134-9844-f29b5d3e66f4",
+        "latencyMs": 1853,
+        "namedScores": {},
+        "prompt": {
+          "raw": "[{\"role\":\"system\",\"content\":\"You extract structured data from privacy opt-out emails. You are given the full text of one email. Return ONLY a single JSON object (no prose, no markdown, no code fences) with exactly these fields:\\n\\n{\\n  \\\"request_type\\\": \\\"delete\\\" | \\\"know\\\",\\n  \\\"reply_to\\\": string,\\n  \\\"first_name\\\": string | null,\\n  \\\"last_name\\\": string | null,\\n  \\\"address\\\": string | null,\\n  \\\"phone\\\": string | null\\n}\\n\\n## Field rules\\n\\nrequest_type — Use EXACTLY one of the two strings \\\"delete\\\" or \\\"know\\\", nothing else.\\n  - \\\"delete\\\" = the person wants their personal data erased / removed / deleted / to stop being kept.\\n  - \\\"know\\\" = the person wants to see, receive, or be told what personal data you hold about them (a right-to-access / right-to-know request).\\n  - If the email asks to KNOW first and then DELETE, treat the ultimate action as \\\"delete\\\".\\n  - Vague opt-out language like \\\"I don't want you keeping my information anymore\\\" maps to \\\"delete\\\".\\n\\nreply_to — The single best email address to reply to.\\n  - This is NOT always the \\\"From:\\\" address. Read the BODY and the SIGNATURE.\\n  - If the writer explicitly says to reply to a different address, use that one.\\n  - If the email is sent by an assistant on behalf of someone else, use the data subject's own address from the signature, not the sender's.\\n  - For a forwarded/quoted thread, use the address of the person actually making the request.\\n\\nfirst_name / last_name — The data subject's real/legal name.\\n  - Prefer the legal name that appears in the body or signature over a nickname or sign-off. (e.g. if the body says \\\"James Whitfield\\\" but they sign \\\"Jimbo\\\", the first name is \\\"James\\\".)\\n  - If only a single first name is available and no last name, set last_name to null.\\n\\naddress — The full mailing/street address if present, otherwise null.\\n\\nphone — The phone number if present, otherwise null.\\n  - If a signature lists more than one number (e.g. a direct line and a mobile), use the primary/direct line.\\n\\n## Absolute rules\\n- Any field not present in the email MUST be null. NEVER invent, guess, or infer data that is not in the email. A missing phone number stays null. A missing last name stays null.\\n- reply_to and request_type will always be present; the other four may be null.\\n- Output the raw JSON object only — no explanation, no ```json fences.\\n\"},{\"role\":\"user\",\"content\":\"Extract the fields from this email:\\n\\nFrom: Priya Raman <priya.raman@examplemail.com>\\nSubject: A small request regarding my personal data\\n\\nHello, I do hope you're having a lovely day. Whenever you have a spare moment, I would be ever so grateful if you could kindly send me a copy of all the personal information you currently hold about me. Thank you so very much for your time and your help with this.\\n\\nWarmest regards,\\nPriya Raman\\n17 Maplewood Lane, Apt 3, Kestrel City, TX 78502\\n(555) 019-4471\"}]",
+          "label": "extractor",
+          "config": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          }
+        },
+        "promptId": "7488d73850bf2009e6762d270ba53bb4e2f88ec77d3dcebeeed21ebac43dca24",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://provider.js",
+          "label": "sonnet-5-target"
+        },
+        "response": {
+          "output": "{\"request_type\": \"know\", \"reply_to\": \"priya.raman@examplemail.com\", \"first_name\": \"Priya\", \"last_name\": \"Raman\", \"address\": \"17 Maplewood Lane, Apt 3, Kestrel City, TX 78502\", \"phone\": \"(555) 019-4471\"}",
+          "tokenUsage": {
+            "prompt": 940,
+            "completion": 100,
+            "total": 1040
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "id": "2",
+            "email": "From: Priya Raman <priya.raman@examplemail.com>\nSubject: A small request regarding my personal data\n\nHello, I do hope you're having a lovely day. Whenever you have a spare moment, I would be ever so grateful if you could kindly send me a copy of all the personal information you currently hold about me. Thank you so very much for your time and your help with this.\n\nWarmest regards,\nPriya Raman\n17 Maplewood Lane, Apt 3, Kestrel City, TX 78502\n(555) 019-4471",
+            "expected_request_type": "know",
+            "expected_reply_to": "priya.raman@examplemail.com",
+            "expected_first_name": "Priya",
+            "expected_last_name": "Raman",
+            "expected_address": "17 Maplewood Lane, Apt 3, Kestrel City, TX 78502",
+            "expected_phone": "(555) 019-4471",
+            "note": "overly polite; right-to-know; all fields present"
+          },
+          "assert": [
+            {
+              "type": "is-json"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+            }
+          ],
+          "options": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          },
+          "description": "Row #2",
+          "metadata": {}
+        },
+        "testIdx": 1,
+        "tokenUsage": {
+          "prompt": 940,
+          "completion": 100,
+          "cached": 0,
+          "total": 1040,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 595,
+            "prompt": 569,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "id": "2",
+          "email": "From: Priya Raman <priya.raman@examplemail.com>\nSubject: A small request regarding my personal data\n\nHello, I do hope you're having a lovely day. Whenever you have a spare moment, I would be ever so grateful if you could kindly send me a copy of all the personal information you currently hold about me. Thank you so very much for your time and your help with this.\n\nWarmest regards,\nPriya Raman\n17 Maplewood Lane, Apt 3, Kestrel City, TX 78502\n(555) 019-4471",
+          "expected_request_type": "know",
+          "expected_reply_to": "priya.raman@examplemail.com",
+          "expected_first_name": "Priya",
+          "expected_last_name": "Raman",
+          "expected_address": "17 Maplewood Lane, Apt 3, Kestrel City, TX 78502",
+          "expected_phone": "(555) 019-4471",
+          "note": "overly polite; right-to-know; all fields present"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 570,
+            "prompt": 544,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "is-json"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "The request_type field is correct.",
+              "tokensUsed": {
+                "total": 570,
+                "prompt": 544,
+                "completion": 26,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "connection": "keep-alive",
+                    "content-length": "686",
+                    "content-type": "application/json; charset=utf-8",
+                    "date": "Mon, 06 Jul 2026 00:35:18 GMT",
+                    "etag": "W/\"2ae-MybWHeIlmvTNH9KKPPNOa3ph/nk\"",
+                    "keep-alive": "timeout=5",
+                    "x-powered-by": "Express"
+                  }
+                },
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n{\\\"request_type\\\":\\\"delete\\\",\\\"reply_to\\\":\\\"gholt@example.org\\\",\\\"first_name\\\":\\\"Greg\\\",\\\"last_name\\\":\\\"Holt\\\",\\\"address\\\":\\\"3390 Birchwood Ave, Selby, WA 98221\\\",\\\"phone\\\":\\\"555-0163\\\"}\\n</Output>\\n<Rubric>\\nYou are checking whether an email-extraction result is correct.\\nThe SUBMITTED output is a JSON object with fields: request_type,\\nreply_to, first_name, last_name, address, phone.\\n\\nCompare it against these EXPECTED values:\\n  request_type = \\\"delete\\\"\\n  reply_to     = \\\"gholt@example.org\\\"\\n  first_name   = \\\"Greg\\\"\\n  last_name    = \\\"Holt\\\"\\n  address      = \\\"3390 Birchwood Ave, Selby, WA 98221\\\"\\n  phone        = \\\"555-0163\\\"\\n\\nGrading rules:\\n- request_type must equal the expected string exactly (\\\"delete\\\" or \\\"know\\\").\\n- reply_to must equal the expected email address (ignore case).\\n- first_name and last_name must match the expected name.\\n- address and phone may differ in minor formatting but must be the same\\n  information.\\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\\n  field MUST be null (or empty). If the model put an invented value in a\\n  field that was supposed to be empty, that is a FAIL.\\n\\nPASS only if every field is correct. If any field is wrong, missing, or\\ninvented, FAIL. Respond with your judgment.\\n\\n</Rubric>\"}]",
+                "renderedAssertionValue": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"delete\"\n  reply_to     = \"gholt@example.org\"\n  first_name   = \"Greg\"\n  last_name    = \"Holt\"\n  address      = \"3390 Birchwood Ave, Selby, WA 98221\"\n  phone        = \"555-0163\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              }
+            }
+          ]
+        },
+        "id": "554a820d-1b88-4c0a-9a3b-c865edd46c40",
+        "latencyMs": 2001,
+        "namedScores": {},
+        "prompt": {
+          "raw": "[{\"role\":\"system\",\"content\":\"You extract structured data from privacy opt-out emails. You are given the full text of one email. Return ONLY a single JSON object (no prose, no markdown, no code fences) with exactly these fields:\\n\\n{\\n  \\\"request_type\\\": \\\"delete\\\" | \\\"know\\\",\\n  \\\"reply_to\\\": string,\\n  \\\"first_name\\\": string | null,\\n  \\\"last_name\\\": string | null,\\n  \\\"address\\\": string | null,\\n  \\\"phone\\\": string | null\\n}\\n\\n## Field rules\\n\\nrequest_type — Use EXACTLY one of the two strings \\\"delete\\\" or \\\"know\\\", nothing else.\\n  - \\\"delete\\\" = the person wants their personal data erased / removed / deleted / to stop being kept.\\n  - \\\"know\\\" = the person wants to see, receive, or be told what personal data you hold about them (a right-to-access / right-to-know request).\\n  - If the email asks to KNOW first and then DELETE, treat the ultimate action as \\\"delete\\\".\\n  - Vague opt-out language like \\\"I don't want you keeping my information anymore\\\" maps to \\\"delete\\\".\\n\\nreply_to — The single best email address to reply to.\\n  - This is NOT always the \\\"From:\\\" address. Read the BODY and the SIGNATURE.\\n  - If the writer explicitly says to reply to a different address, use that one.\\n  - If the email is sent by an assistant on behalf of someone else, use the data subject's own address from the signature, not the sender's.\\n  - For a forwarded/quoted thread, use the address of the person actually making the request.\\n\\nfirst_name / last_name — The data subject's real/legal name.\\n  - Prefer the legal name that appears in the body or signature over a nickname or sign-off. (e.g. if the body says \\\"James Whitfield\\\" but they sign \\\"Jimbo\\\", the first name is \\\"James\\\".)\\n  - If only a single first name is available and no last name, set last_name to null.\\n\\naddress — The full mailing/street address if present, otherwise null.\\n\\nphone — The phone number if present, otherwise null.\\n  - If a signature lists more than one number (e.g. a direct line and a mobile), use the primary/direct line.\\n\\n## Absolute rules\\n- Any field not present in the email MUST be null. NEVER invent, guess, or infer data that is not in the email. A missing phone number stays null. A missing last name stays null.\\n- reply_to and request_type will always be present; the other four may be null.\\n- Output the raw JSON object only — no explanation, no ```json fences.\\n\"},{\"role\":\"user\",\"content\":\"Extract the fields from this email:\\n\\nFrom: Greg Holt <gholt@example.org>\\nSubject: opt out\\n\\nDelete my account and everything you have on me. Thanks.\\nGreg Holt, 3390 Birchwood Ave, Selby, WA 98221, 555-0163\"}]",
+          "label": "extractor",
+          "config": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          }
+        },
+        "promptId": "7488d73850bf2009e6762d270ba53bb4e2f88ec77d3dcebeeed21ebac43dca24",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://provider.js",
+          "label": "sonnet-5-target"
+        },
+        "response": {
+          "output": "{\"request_type\": \"delete\", \"reply_to\": \"gholt@example.org\", \"first_name\": \"Greg\", \"last_name\": \"Holt\", \"address\": \"3390 Birchwood Ave, Selby, WA 98221\", \"phone\": \"555-0163\"}",
+          "tokenUsage": {
+            "prompt": 849,
+            "completion": 84,
+            "total": 933
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "id": "3",
+            "email": "From: Greg Holt <gholt@example.org>\nSubject: opt out\n\nDelete my account and everything you have on me. Thanks.\nGreg Holt, 3390 Birchwood Ave, Selby, WA 98221, 555-0163",
+            "expected_request_type": "delete",
+            "expected_reply_to": "gholt@example.org",
+            "expected_first_name": "Greg",
+            "expected_last_name": "Holt",
+            "expected_address": "3390 Birchwood Ave, Selby, WA 98221",
+            "expected_phone": "555-0163",
+            "note": "terse two-liner; all fields present"
+          },
+          "assert": [
+            {
+              "type": "is-json"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+            }
+          ],
+          "options": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          },
+          "description": "Row #3",
+          "metadata": {}
+        },
+        "testIdx": 2,
+        "tokenUsage": {
+          "prompt": 849,
+          "completion": 84,
+          "cached": 0,
+          "total": 933,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 570,
+            "prompt": 544,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "id": "3",
+          "email": "From: Greg Holt <gholt@example.org>\nSubject: opt out\n\nDelete my account and everything you have on me. Thanks.\nGreg Holt, 3390 Birchwood Ave, Selby, WA 98221, 555-0163",
+          "expected_request_type": "delete",
+          "expected_reply_to": "gholt@example.org",
+          "expected_first_name": "Greg",
+          "expected_last_name": "Holt",
+          "expected_address": "3390 Birchwood Ave, Selby, WA 98221",
+          "expected_phone": "555-0163",
+          "note": "terse two-liner; all fields present"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 583,
+            "prompt": 557,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "is-json"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "The request_type field is correct.",
+              "tokensUsed": {
+                "total": 583,
+                "prompt": 557,
+                "completion": 26,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "connection": "keep-alive",
+                    "content-length": "685",
+                    "content-type": "application/json; charset=utf-8",
+                    "date": "Mon, 06 Jul 2026 00:35:18 GMT",
+                    "etag": "W/\"2ad-/AOv4lVWO5fwjbGp7g9OrVqj0Sk\"",
+                    "keep-alive": "timeout=5",
+                    "x-powered-by": "Express"
+                  }
+                },
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n{\\\"request_type\\\":\\\"know\\\",\\\"reply_to\\\":\\\"e.voss@examplemail.net\\\",\\\"first_name\\\":\\\"Eleanor\\\",\\\"last_name\\\":\\\"Voss\\\",\\\"address\\\":\\\"6 Tanager Court, Millbrook, ME 04008\\\",\\\"phone\\\":\\\"(555) 019-7756\\\"}\\n</Output>\\n<Rubric>\\nYou are checking whether an email-extraction result is correct.\\nThe SUBMITTED output is a JSON object with fields: request_type,\\nreply_to, first_name, last_name, address, phone.\\n\\nCompare it against these EXPECTED values:\\n  request_type = \\\"know\\\"\\n  reply_to     = \\\"e.voss@examplemail.net\\\"\\n  first_name   = \\\"Eleanor\\\"\\n  last_name    = \\\"Voss\\\"\\n  address      = \\\"6 Tanager Court, Millbrook, ME 04008\\\"\\n  phone        = \\\"(555) 019-7756\\\"\\n\\nGrading rules:\\n- request_type must equal the expected string exactly (\\\"delete\\\" or \\\"know\\\").\\n- reply_to must equal the expected email address (ignore case).\\n- first_name and last_name must match the expected name.\\n- address and phone may differ in minor formatting but must be the same\\n  information.\\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\\n  field MUST be null (or empty). If the model put an invented value in a\\n  field that was supposed to be empty, that is a FAIL.\\n\\nPASS only if every field is correct. If any field is wrong, missing, or\\ninvented, FAIL. Respond with your judgment.\\n\\n</Rubric>\"}]",
+                "renderedAssertionValue": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"know\"\n  reply_to     = \"e.voss@examplemail.net\"\n  first_name   = \"Eleanor\"\n  last_name    = \"Voss\"\n  address      = \"6 Tanager Court, Millbrook, ME 04008\"\n  phone        = \"(555) 019-7756\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              }
+            }
+          ]
+        },
+        "id": "f0b74f75-877e-40f5-b267-6619bb9f43e0",
+        "latencyMs": 1727,
+        "namedScores": {},
+        "prompt": {
+          "raw": "[{\"role\":\"system\",\"content\":\"You extract structured data from privacy opt-out emails. You are given the full text of one email. Return ONLY a single JSON object (no prose, no markdown, no code fences) with exactly these fields:\\n\\n{\\n  \\\"request_type\\\": \\\"delete\\\" | \\\"know\\\",\\n  \\\"reply_to\\\": string,\\n  \\\"first_name\\\": string | null,\\n  \\\"last_name\\\": string | null,\\n  \\\"address\\\": string | null,\\n  \\\"phone\\\": string | null\\n}\\n\\n## Field rules\\n\\nrequest_type — Use EXACTLY one of the two strings \\\"delete\\\" or \\\"know\\\", nothing else.\\n  - \\\"delete\\\" = the person wants their personal data erased / removed / deleted / to stop being kept.\\n  - \\\"know\\\" = the person wants to see, receive, or be told what personal data you hold about them (a right-to-access / right-to-know request).\\n  - If the email asks to KNOW first and then DELETE, treat the ultimate action as \\\"delete\\\".\\n  - Vague opt-out language like \\\"I don't want you keeping my information anymore\\\" maps to \\\"delete\\\".\\n\\nreply_to — The single best email address to reply to.\\n  - This is NOT always the \\\"From:\\\" address. Read the BODY and the SIGNATURE.\\n  - If the writer explicitly says to reply to a different address, use that one.\\n  - If the email is sent by an assistant on behalf of someone else, use the data subject's own address from the signature, not the sender's.\\n  - For a forwarded/quoted thread, use the address of the person actually making the request.\\n\\nfirst_name / last_name — The data subject's real/legal name.\\n  - Prefer the legal name that appears in the body or signature over a nickname or sign-off. (e.g. if the body says \\\"James Whitfield\\\" but they sign \\\"Jimbo\\\", the first name is \\\"James\\\".)\\n  - If only a single first name is available and no last name, set last_name to null.\\n\\naddress — The full mailing/street address if present, otherwise null.\\n\\nphone — The phone number if present, otherwise null.\\n  - If a signature lists more than one number (e.g. a direct line and a mobile), use the primary/direct line.\\n\\n## Absolute rules\\n- Any field not present in the email MUST be null. NEVER invent, guess, or infer data that is not in the email. A missing phone number stays null. A missing last name stays null.\\n- reply_to and request_type will always be present; the other four may be null.\\n- Output the raw JSON object only — no explanation, no ```json fences.\\n\"},{\"role\":\"user\",\"content\":\"Extract the fields from this email:\\n\\nFrom: Eleanor Voss <e.voss@examplemail.net>\\nSubject: what do you have on me\\n\\nSo I was chatting with my neighbor the other day and she mentioned that companies keep all sorts of files on people, and honestly it got me thinking, because I've been getting a lot of odd mail lately and I really would just like to understand what exactly it is that you have on record for me, all of it if that's possible, so I can wrap my head around where all of this is coming from. I'm at 6 Tanager Court, Millbrook, ME 04008 and you can reach me at (555) 019-7756 if that's easier.\\n\\nEleanor Voss\"}]",
+          "label": "extractor",
+          "config": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          }
+        },
+        "promptId": "7488d73850bf2009e6762d270ba53bb4e2f88ec77d3dcebeeed21ebac43dca24",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://provider.js",
+          "label": "sonnet-5-target"
+        },
+        "response": {
+          "output": "{\"request_type\": \"know\", \"reply_to\": \"e.voss@examplemail.net\", \"first_name\": \"Eleanor\", \"last_name\": \"Voss\", \"address\": \"6 Tanager Court, Millbrook, ME 04008\", \"phone\": \"(555) 019-7756\"}",
+          "tokenUsage": {
+            "prompt": 973,
+            "completion": 92,
+            "total": 1065
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "id": "4",
+            "email": "From: Eleanor Voss <e.voss@examplemail.net>\nSubject: what do you have on me\n\nSo I was chatting with my neighbor the other day and she mentioned that companies keep all sorts of files on people, and honestly it got me thinking, because I've been getting a lot of odd mail lately and I really would just like to understand what exactly it is that you have on record for me, all of it if that's possible, so I can wrap my head around where all of this is coming from. I'm at 6 Tanager Court, Millbrook, ME 04008 and you can reach me at (555) 019-7756 if that's easier.\n\nEleanor Voss",
+            "expected_request_type": "know",
+            "expected_reply_to": "e.voss@examplemail.net",
+            "expected_first_name": "Eleanor",
+            "expected_last_name": "Voss",
+            "expected_address": "6 Tanager Court, Millbrook, ME 04008",
+            "expected_phone": "(555) 019-7756",
+            "note": "rambling single paragraph; right-to-know"
+          },
+          "assert": [
+            {
+              "type": "is-json"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+            }
+          ],
+          "options": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          },
+          "description": "Row #4",
+          "metadata": {}
+        },
+        "testIdx": 3,
+        "tokenUsage": {
+          "prompt": 973,
+          "completion": 92,
+          "cached": 0,
+          "total": 1065,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 583,
+            "prompt": 557,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "id": "4",
+          "email": "From: Eleanor Voss <e.voss@examplemail.net>\nSubject: what do you have on me\n\nSo I was chatting with my neighbor the other day and she mentioned that companies keep all sorts of files on people, and honestly it got me thinking, because I've been getting a lot of odd mail lately and I really would just like to understand what exactly it is that you have on record for me, all of it if that's possible, so I can wrap my head around where all of this is coming from. I'm at 6 Tanager Court, Millbrook, ME 04008 and you can reach me at (555) 019-7756 if that's easier.\n\nEleanor Voss",
+          "expected_request_type": "know",
+          "expected_reply_to": "e.voss@examplemail.net",
+          "expected_first_name": "Eleanor",
+          "expected_last_name": "Voss",
+          "expected_address": "6 Tanager Court, Millbrook, ME 04008",
+          "expected_phone": "(555) 019-7756",
+          "note": "rambling single paragraph; right-to-know"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 585,
+            "prompt": 559,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "is-json"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "The request_type field is correct.",
+              "tokensUsed": {
+                "total": 585,
+                "prompt": 559,
+                "completion": 26,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "connection": "keep-alive",
+                    "content-length": "685",
+                    "content-type": "application/json; charset=utf-8",
+                    "date": "Mon, 06 Jul 2026 00:35:27 GMT",
+                    "etag": "W/\"2ad-9sSQEWBdJU1UaCWZ0H2KOOpL0m0\"",
+                    "keep-alive": "timeout=5",
+                    "x-powered-by": "Express"
+                  }
+                },
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n{\\\"request_type\\\":\\\"delete\\\",\\\"reply_to\\\":\\\"tomasokafor@example.net\\\",\\\"first_name\\\":\\\"Tomas\\\",\\\"last_name\\\":\\\"Okafor\\\",\\\"address\\\":\\\"221 Founders Way, Loxley, PA 19040\\\",\\\"phone\\\":\\\"(555) 019-3312\\\"}\\n</Output>\\n<Rubric>\\nYou are checking whether an email-extraction result is correct.\\nThe SUBMITTED output is a JSON object with fields: request_type,\\nreply_to, first_name, last_name, address, phone.\\n\\nCompare it against these EXPECTED values:\\n  request_type = \\\"delete\\\"\\n  reply_to     = \\\"tomasokafor@example.net\\\"\\n  first_name   = \\\"Tomas\\\"\\n  last_name    = \\\"Okafor\\\"\\n  address      = \\\"221 Founders Way, Loxley, PA 19040\\\"\\n  phone        = \\\"(555) 019-3312\\\"\\n\\nGrading rules:\\n- request_type must equal the expected string exactly (\\\"delete\\\" or \\\"know\\\").\\n- reply_to must equal the expected email address (ignore case).\\n- first_name and last_name must match the expected name.\\n- address and phone may differ in minor formatting but must be the same\\n  information.\\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\\n  field MUST be null (or empty). If the model put an invented value in a\\n  field that was supposed to be empty, that is a FAIL.\\n\\nPASS only if every field is correct. If any field is wrong, missing, or\\ninvented, FAIL. Respond with your judgment.\\n\\n</Rubric>\"}]",
+                "renderedAssertionValue": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"delete\"\n  reply_to     = \"tomasokafor@example.net\"\n  first_name   = \"Tomas\"\n  last_name    = \"Okafor\"\n  address      = \"221 Founders Way, Loxley, PA 19040\"\n  phone        = \"(555) 019-3312\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              }
+            }
+          ]
+        },
+        "id": "37507ec4-dd3d-48fd-84f0-bf9509e66768",
+        "latencyMs": 1668,
+        "namedScores": {},
+        "prompt": {
+          "raw": "[{\"role\":\"system\",\"content\":\"You extract structured data from privacy opt-out emails. You are given the full text of one email. Return ONLY a single JSON object (no prose, no markdown, no code fences) with exactly these fields:\\n\\n{\\n  \\\"request_type\\\": \\\"delete\\\" | \\\"know\\\",\\n  \\\"reply_to\\\": string,\\n  \\\"first_name\\\": string | null,\\n  \\\"last_name\\\": string | null,\\n  \\\"address\\\": string | null,\\n  \\\"phone\\\": string | null\\n}\\n\\n## Field rules\\n\\nrequest_type — Use EXACTLY one of the two strings \\\"delete\\\" or \\\"know\\\", nothing else.\\n  - \\\"delete\\\" = the person wants their personal data erased / removed / deleted / to stop being kept.\\n  - \\\"know\\\" = the person wants to see, receive, or be told what personal data you hold about them (a right-to-access / right-to-know request).\\n  - If the email asks to KNOW first and then DELETE, treat the ultimate action as \\\"delete\\\".\\n  - Vague opt-out language like \\\"I don't want you keeping my information anymore\\\" maps to \\\"delete\\\".\\n\\nreply_to — The single best email address to reply to.\\n  - This is NOT always the \\\"From:\\\" address. Read the BODY and the SIGNATURE.\\n  - If the writer explicitly says to reply to a different address, use that one.\\n  - If the email is sent by an assistant on behalf of someone else, use the data subject's own address from the signature, not the sender's.\\n  - For a forwarded/quoted thread, use the address of the person actually making the request.\\n\\nfirst_name / last_name — The data subject's real/legal name.\\n  - Prefer the legal name that appears in the body or signature over a nickname or sign-off. (e.g. if the body says \\\"James Whitfield\\\" but they sign \\\"Jimbo\\\", the first name is \\\"James\\\".)\\n  - If only a single first name is available and no last name, set last_name to null.\\n\\naddress — The full mailing/street address if present, otherwise null.\\n\\nphone — The phone number if present, otherwise null.\\n  - If a signature lists more than one number (e.g. a direct line and a mobile), use the primary/direct line.\\n\\n## Absolute rules\\n- Any field not present in the email MUST be null. NEVER invent, guess, or infer data that is not in the email. A missing phone number stays null. A missing last name stays null.\\n- reply_to and request_type will always be present; the other four may be null.\\n- Output the raw JSON object only — no explanation, no ```json fences.\\n\"},{\"role\":\"user\",\"content\":\"Extract the fields from this email:\\n\\nFrom: Tomas Okafor <t.okafor@northgate-industrial.example.com>\\nSubject: data deletion request\\n\\nI'm sending this from my work account, but please don't reply here - this inbox gets monitored and I'd rather keep this personal. Reply to me at tomasokafor@example.net instead.\\n\\nPlease delete all of the personal data you hold on me.\\n\\nTomas Okafor\\n221 Founders Way, Loxley, PA 19040\\n(555) 019-3312\"}]",
+          "label": "extractor",
+          "config": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          }
+        },
+        "promptId": "7488d73850bf2009e6762d270ba53bb4e2f88ec77d3dcebeeed21ebac43dca24",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://provider.js",
+          "label": "sonnet-5-target"
+        },
+        "response": {
+          "output": "{\"request_type\": \"delete\", \"reply_to\": \"tomasokafor@example.net\", \"first_name\": \"Tomas\", \"last_name\": \"Okafor\", \"address\": \"221 Founders Way, Loxley, PA 19040\", \"phone\": \"(555) 019-3312\"}",
+          "tokenUsage": {
+            "prompt": 922,
+            "completion": 90,
+            "total": 1012
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "id": "5",
+            "email": "From: Tomas Okafor <t.okafor@northgate-industrial.example.com>\nSubject: data deletion request\n\nI'm sending this from my work account, but please don't reply here - this inbox gets monitored and I'd rather keep this personal. Reply to me at tomasokafor@example.net instead.\n\nPlease delete all of the personal data you hold on me.\n\nTomas Okafor\n221 Founders Way, Loxley, PA 19040\n(555) 019-3312",
+            "expected_request_type": "delete",
+            "expected_reply_to": "tomasokafor@example.net",
+            "expected_first_name": "Tomas",
+            "expected_last_name": "Okafor",
+            "expected_address": "221 Founders Way, Loxley, PA 19040",
+            "expected_phone": "(555) 019-3312",
+            "note": "reply-to trap: From is work address; real reply-to stated in body"
+          },
+          "assert": [
+            {
+              "type": "is-json"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+            }
+          ],
+          "options": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          },
+          "description": "Row #5",
+          "metadata": {}
+        },
+        "testIdx": 4,
+        "tokenUsage": {
+          "prompt": 922,
+          "completion": 90,
+          "cached": 0,
+          "total": 1012,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 585,
+            "prompt": 559,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "id": "5",
+          "email": "From: Tomas Okafor <t.okafor@northgate-industrial.example.com>\nSubject: data deletion request\n\nI'm sending this from my work account, but please don't reply here - this inbox gets monitored and I'd rather keep this personal. Reply to me at tomasokafor@example.net instead.\n\nPlease delete all of the personal data you hold on me.\n\nTomas Okafor\n221 Founders Way, Loxley, PA 19040\n(555) 019-3312",
+          "expected_request_type": "delete",
+          "expected_reply_to": "tomasokafor@example.net",
+          "expected_first_name": "Tomas",
+          "expected_last_name": "Okafor",
+          "expected_address": "221 Founders Way, Loxley, PA 19040",
+          "expected_phone": "(555) 019-3312",
+          "note": "reply-to trap: From is work address; real reply-to stated in body"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 585,
+            "prompt": 559,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "is-json"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "The request_type field is correct.",
+              "tokensUsed": {
+                "total": 585,
+                "prompt": 559,
+                "completion": 26,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "connection": "keep-alive",
+                    "content-length": "685",
+                    "content-type": "application/json; charset=utf-8",
+                    "date": "Mon, 06 Jul 2026 00:35:27 GMT",
+                    "etag": "W/\"2ad-TTtqziA0RJw77dGGk9pd7gsooCY\"",
+                    "keep-alive": "timeout=5",
+                    "x-powered-by": "Express"
+                  }
+                },
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n{\\\"request_type\\\":\\\"know\\\",\\\"reply_to\\\":\\\"dfoster@example.org\\\",\\\"first_name\\\":\\\"Diane\\\",\\\"last_name\\\":\\\"Foster\\\",\\\"address\\\":\\\"109 Rue Verte, Apt 12, Harwick, NJ 07001\\\",\\\"phone\\\":\\\"(555) 019-6690\\\"}\\n</Output>\\n<Rubric>\\nYou are checking whether an email-extraction result is correct.\\nThe SUBMITTED output is a JSON object with fields: request_type,\\nreply_to, first_name, last_name, address, phone.\\n\\nCompare it against these EXPECTED values:\\n  request_type = \\\"know\\\"\\n  reply_to     = \\\"dfoster@example.org\\\"\\n  first_name   = \\\"Diane\\\"\\n  last_name    = \\\"Foster\\\"\\n  address      = \\\"109 Rue Verte, Apt 12, Harwick, NJ 07001\\\"\\n  phone        = \\\"(555) 019-6690\\\"\\n\\nGrading rules:\\n- request_type must equal the expected string exactly (\\\"delete\\\" or \\\"know\\\").\\n- reply_to must equal the expected email address (ignore case).\\n- first_name and last_name must match the expected name.\\n- address and phone may differ in minor formatting but must be the same\\n  information.\\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\\n  field MUST be null (or empty). If the model put an invented value in a\\n  field that was supposed to be empty, that is a FAIL.\\n\\nPASS only if every field is correct. If any field is wrong, missing, or\\ninvented, FAIL. Respond with your judgment.\\n\\n</Rubric>\"}]",
+                "renderedAssertionValue": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"know\"\n  reply_to     = \"dfoster@example.org\"\n  first_name   = \"Diane\"\n  last_name    = \"Foster\"\n  address      = \"109 Rue Verte, Apt 12, Harwick, NJ 07001\"\n  phone        = \"(555) 019-6690\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              }
+            }
+          ]
+        },
+        "id": "41b75863-7907-44ce-82ec-88a270eea47c",
+        "latencyMs": 2704,
+        "namedScores": {},
+        "prompt": {
+          "raw": "[{\"role\":\"system\",\"content\":\"You extract structured data from privacy opt-out emails. You are given the full text of one email. Return ONLY a single JSON object (no prose, no markdown, no code fences) with exactly these fields:\\n\\n{\\n  \\\"request_type\\\": \\\"delete\\\" | \\\"know\\\",\\n  \\\"reply_to\\\": string,\\n  \\\"first_name\\\": string | null,\\n  \\\"last_name\\\": string | null,\\n  \\\"address\\\": string | null,\\n  \\\"phone\\\": string | null\\n}\\n\\n## Field rules\\n\\nrequest_type — Use EXACTLY one of the two strings \\\"delete\\\" or \\\"know\\\", nothing else.\\n  - \\\"delete\\\" = the person wants their personal data erased / removed / deleted / to stop being kept.\\n  - \\\"know\\\" = the person wants to see, receive, or be told what personal data you hold about them (a right-to-access / right-to-know request).\\n  - If the email asks to KNOW first and then DELETE, treat the ultimate action as \\\"delete\\\".\\n  - Vague opt-out language like \\\"I don't want you keeping my information anymore\\\" maps to \\\"delete\\\".\\n\\nreply_to — The single best email address to reply to.\\n  - This is NOT always the \\\"From:\\\" address. Read the BODY and the SIGNATURE.\\n  - If the writer explicitly says to reply to a different address, use that one.\\n  - If the email is sent by an assistant on behalf of someone else, use the data subject's own address from the signature, not the sender's.\\n  - For a forwarded/quoted thread, use the address of the person actually making the request.\\n\\nfirst_name / last_name — The data subject's real/legal name.\\n  - Prefer the legal name that appears in the body or signature over a nickname or sign-off. (e.g. if the body says \\\"James Whitfield\\\" but they sign \\\"Jimbo\\\", the first name is \\\"James\\\".)\\n  - If only a single first name is available and no last name, set last_name to null.\\n\\naddress — The full mailing/street address if present, otherwise null.\\n\\nphone — The phone number if present, otherwise null.\\n  - If a signature lists more than one number (e.g. a direct line and a mobile), use the primary/direct line.\\n\\n## Absolute rules\\n- Any field not present in the email MUST be null. NEVER invent, guess, or infer data that is not in the email. A missing phone number stays null. A missing last name stays null.\\n- reply_to and request_type will always be present; the other four may be null.\\n- Output the raw JSON object only — no explanation, no ```json fences.\\n\"},{\"role\":\"user\",\"content\":\"Extract the fields from this email:\\n\\nFrom: Executive Assistant <assistant@brightfold.example.com>\\nSubject: Data request on behalf of Ms. Foster\\n\\nHello,\\n\\nI'm writing on behalf of Ms. Diane Foster, who would like a copy of the personal information your company holds about her. Please direct your response to her directly.\\n\\nBest,\\nJ. Alvarez\\nOffice of Diane Foster\\n\\n--\\nDiane Foster\\nPrincipal\\ndfoster@example.org\\n109 Rue Verte, Apt 12, Harwick, NJ 07001\\n(555) 019-6690\"}]",
+          "label": "extractor",
+          "config": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          }
+        },
+        "promptId": "7488d73850bf2009e6762d270ba53bb4e2f88ec77d3dcebeeed21ebac43dca24",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://provider.js",
+          "label": "sonnet-5-target"
+        },
+        "response": {
+          "output": "{\"request_type\": \"know\", \"reply_to\": \"dfoster@example.org\", \"first_name\": \"Diane\", \"last_name\": \"Foster\", \"address\": \"109 Rue Verte, Apt 12, Harwick, NJ 07001\", \"phone\": \"(555) 019-6690\"}",
+          "tokenUsage": {
+            "prompt": 948,
+            "completion": 93,
+            "total": 1041
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "id": "6",
+            "email": "From: Executive Assistant <assistant@brightfold.example.com>\nSubject: Data request on behalf of Ms. Foster\n\nHello,\n\nI'm writing on behalf of Ms. Diane Foster, who would like a copy of the personal information your company holds about her. Please direct your response to her directly.\n\nBest,\nJ. Alvarez\nOffice of Diane Foster\n\n--\nDiane Foster\nPrincipal\ndfoster@example.org\n109 Rue Verte, Apt 12, Harwick, NJ 07001\n(555) 019-6690",
+            "expected_request_type": "know",
+            "expected_reply_to": "dfoster@example.org",
+            "expected_first_name": "Diane",
+            "expected_last_name": "Foster",
+            "expected_address": "109 Rue Verte, Apt 12, Harwick, NJ 07001",
+            "expected_phone": "(555) 019-6690",
+            "note": "reply-to trap: From is assistant; real reply-to buried in signature"
+          },
+          "assert": [
+            {
+              "type": "is-json"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+            }
+          ],
+          "options": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          },
+          "description": "Row #6",
+          "metadata": {}
+        },
+        "testIdx": 5,
+        "tokenUsage": {
+          "prompt": 948,
+          "completion": 93,
+          "cached": 0,
+          "total": 1041,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 585,
+            "prompt": 559,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "id": "6",
+          "email": "From: Executive Assistant <assistant@brightfold.example.com>\nSubject: Data request on behalf of Ms. Foster\n\nHello,\n\nI'm writing on behalf of Ms. Diane Foster, who would like a copy of the personal information your company holds about her. Please direct your response to her directly.\n\nBest,\nJ. Alvarez\nOffice of Diane Foster\n\n--\nDiane Foster\nPrincipal\ndfoster@example.org\n109 Rue Verte, Apt 12, Harwick, NJ 07001\n(555) 019-6690",
+          "expected_request_type": "know",
+          "expected_reply_to": "dfoster@example.org",
+          "expected_first_name": "Diane",
+          "expected_last_name": "Foster",
+          "expected_address": "109 Rue Verte, Apt 12, Harwick, NJ 07001",
+          "expected_phone": "(555) 019-6690",
+          "note": "reply-to trap: From is assistant; real reply-to buried in signature"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 581,
+            "prompt": 555,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "is-json"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "The request_type field is correct.",
+              "tokensUsed": {
+                "total": 581,
+                "prompt": 555,
+                "completion": 26,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "connection": "keep-alive",
+                    "content-length": "686",
+                    "content-type": "application/json; charset=utf-8",
+                    "date": "Mon, 06 Jul 2026 00:35:27 GMT",
+                    "etag": "W/\"2ae-UDZi12OEWHbV5OO05hkCEF1vxrw\"",
+                    "keep-alive": "timeout=5",
+                    "x-powered-by": "Express"
+                  }
+                },
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n{\\\"request_type\\\":\\\"delete\\\",\\\"reply_to\\\":\\\"jwhitfield@example.com\\\",\\\"first_name\\\":\\\"James\\\",\\\"last_name\\\":\\\"Whitfield\\\",\\\"address\\\":\\\"55 Preston Row, Aldermarsh, NV 89044\\\",\\\"phone\\\":\\\"(555) 019-2201\\\"}\\n</Output>\\n<Rubric>\\nYou are checking whether an email-extraction result is correct.\\nThe SUBMITTED output is a JSON object with fields: request_type,\\nreply_to, first_name, last_name, address, phone.\\n\\nCompare it against these EXPECTED values:\\n  request_type = \\\"delete\\\"\\n  reply_to     = \\\"jwhitfield@example.com\\\"\\n  first_name   = \\\"James\\\"\\n  last_name    = \\\"Whitfield\\\"\\n  address      = \\\"55 Preston Row, Aldermarsh, NV 89044\\\"\\n  phone        = \\\"(555) 019-2201\\\"\\n\\nGrading rules:\\n- request_type must equal the expected string exactly (\\\"delete\\\" or \\\"know\\\").\\n- reply_to must equal the expected email address (ignore case).\\n- first_name and last_name must match the expected name.\\n- address and phone may differ in minor formatting but must be the same\\n  information.\\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\\n  field MUST be null (or empty). If the model put an invented value in a\\n  field that was supposed to be empty, that is a FAIL.\\n\\nPASS only if every field is correct. If any field is wrong, missing, or\\ninvented, FAIL. Respond with your judgment.\\n\\n</Rubric>\"}]",
+                "renderedAssertionValue": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"delete\"\n  reply_to     = \"jwhitfield@example.com\"\n  first_name   = \"James\"\n  last_name    = \"Whitfield\"\n  address      = \"55 Preston Row, Aldermarsh, NV 89044\"\n  phone        = \"(555) 019-2201\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              }
+            }
+          ]
+        },
+        "id": "0ee54521-cf0c-4bd2-b2cc-25e2428ce57d",
+        "latencyMs": 1755,
+        "namedScores": {},
+        "prompt": {
+          "raw": "[{\"role\":\"system\",\"content\":\"You extract structured data from privacy opt-out emails. You are given the full text of one email. Return ONLY a single JSON object (no prose, no markdown, no code fences) with exactly these fields:\\n\\n{\\n  \\\"request_type\\\": \\\"delete\\\" | \\\"know\\\",\\n  \\\"reply_to\\\": string,\\n  \\\"first_name\\\": string | null,\\n  \\\"last_name\\\": string | null,\\n  \\\"address\\\": string | null,\\n  \\\"phone\\\": string | null\\n}\\n\\n## Field rules\\n\\nrequest_type — Use EXACTLY one of the two strings \\\"delete\\\" or \\\"know\\\", nothing else.\\n  - \\\"delete\\\" = the person wants their personal data erased / removed / deleted / to stop being kept.\\n  - \\\"know\\\" = the person wants to see, receive, or be told what personal data you hold about them (a right-to-access / right-to-know request).\\n  - If the email asks to KNOW first and then DELETE, treat the ultimate action as \\\"delete\\\".\\n  - Vague opt-out language like \\\"I don't want you keeping my information anymore\\\" maps to \\\"delete\\\".\\n\\nreply_to — The single best email address to reply to.\\n  - This is NOT always the \\\"From:\\\" address. Read the BODY and the SIGNATURE.\\n  - If the writer explicitly says to reply to a different address, use that one.\\n  - If the email is sent by an assistant on behalf of someone else, use the data subject's own address from the signature, not the sender's.\\n  - For a forwarded/quoted thread, use the address of the person actually making the request.\\n\\nfirst_name / last_name — The data subject's real/legal name.\\n  - Prefer the legal name that appears in the body or signature over a nickname or sign-off. (e.g. if the body says \\\"James Whitfield\\\" but they sign \\\"Jimbo\\\", the first name is \\\"James\\\".)\\n  - If only a single first name is available and no last name, set last_name to null.\\n\\naddress — The full mailing/street address if present, otherwise null.\\n\\nphone — The phone number if present, otherwise null.\\n  - If a signature lists more than one number (e.g. a direct line and a mobile), use the primary/direct line.\\n\\n## Absolute rules\\n- Any field not present in the email MUST be null. NEVER invent, guess, or infer data that is not in the email. A missing phone number stays null. A missing last name stays null.\\n- reply_to and request_type will always be present; the other four may be null.\\n- Output the raw JSON object only — no explanation, no ```json fences.\\n\"},{\"role\":\"user\",\"content\":\"Extract the fields from this email:\\n\\nFrom: James Whitfield <jwhitfield@example.com>\\nSubject: delete me\\n\\nHey, this is James Whitfield - most folks know me as Jimbo. I want you to delete all the data you've got on me, please.\\n\\nCheers,\\nJimbo\\n55 Preston Row, Aldermarsh, NV 89044\\n(555) 019-2201\"}]",
+          "label": "extractor",
+          "config": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          }
+        },
+        "promptId": "7488d73850bf2009e6762d270ba53bb4e2f88ec77d3dcebeeed21ebac43dca24",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://provider.js",
+          "label": "sonnet-5-target"
+        },
+        "response": {
+          "output": "{\"request_type\": \"delete\", \"reply_to\": \"jwhitfield@example.com\", \"first_name\": \"James\", \"last_name\": \"Whitfield\", \"address\": \"55 Preston Row, Aldermarsh, NV 89044\", \"phone\": \"(555) 019-2201\"}",
+          "tokenUsage": {
+            "prompt": 883,
+            "completion": 99,
+            "total": 982
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "id": "7",
+            "email": "From: James Whitfield <jwhitfield@example.com>\nSubject: delete me\n\nHey, this is James Whitfield - most folks know me as Jimbo. I want you to delete all the data you've got on me, please.\n\nCheers,\nJimbo\n55 Preston Row, Aldermarsh, NV 89044\n(555) 019-2201",
+            "expected_request_type": "delete",
+            "expected_reply_to": "jwhitfield@example.com",
+            "expected_first_name": "James",
+            "expected_last_name": "Whitfield",
+            "expected_address": "55 Preston Row, Aldermarsh, NV 89044",
+            "expected_phone": "(555) 019-2201",
+            "note": "nickname trap: signs off 'Jimbo' but legal name James Whitfield is in the body; expected_first_name uses the legal name"
+          },
+          "assert": [
+            {
+              "type": "is-json"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+            }
+          ],
+          "options": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          },
+          "description": "Row #7",
+          "metadata": {}
+        },
+        "testIdx": 6,
+        "tokenUsage": {
+          "prompt": 883,
+          "completion": 99,
+          "cached": 0,
+          "total": 982,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 581,
+            "prompt": 555,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "id": "7",
+          "email": "From: James Whitfield <jwhitfield@example.com>\nSubject: delete me\n\nHey, this is James Whitfield - most folks know me as Jimbo. I want you to delete all the data you've got on me, please.\n\nCheers,\nJimbo\n55 Preston Row, Aldermarsh, NV 89044\n(555) 019-2201",
+          "expected_request_type": "delete",
+          "expected_reply_to": "jwhitfield@example.com",
+          "expected_first_name": "James",
+          "expected_last_name": "Whitfield",
+          "expected_address": "55 Preston Row, Aldermarsh, NV 89044",
+          "expected_phone": "(555) 019-2201",
+          "note": "nickname trap: signs off 'Jimbo' but legal name James Whitfield is in the body; expected_first_name uses the legal name"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 558,
+            "prompt": 532,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "is-json"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "The request_type field is correct.",
+              "tokensUsed": {
+                "total": 558,
+                "prompt": 532,
+                "completion": 26,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "connection": "keep-alive",
+                    "content-length": "685",
+                    "content-type": "application/json; charset=utf-8",
+                    "date": "Mon, 06 Jul 2026 00:35:27 GMT",
+                    "etag": "W/\"2ad-BtO62cXSHi50DeDfO1bSUkYwfzY\"",
+                    "keep-alive": "timeout=5",
+                    "x-powered-by": "Express"
+                  }
+                },
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n{\\\"request_type\\\":\\\"delete\\\",\\\"reply_to\\\":\\\"nadia.b@examplemail.com\\\",\\\"first_name\\\":\\\"Nadia\\\",\\\"last_name\\\":\\\"Brennan\\\",\\\"address\\\":\\\"88 Corliss Street, Weatherby, IL 60622\\\",\\\"phone\\\":null}\\n</Output>\\n<Rubric>\\nYou are checking whether an email-extraction result is correct.\\nThe SUBMITTED output is a JSON object with fields: request_type,\\nreply_to, first_name, last_name, address, phone.\\n\\nCompare it against these EXPECTED values:\\n  request_type = \\\"delete\\\"\\n  reply_to     = \\\"nadia.b@examplemail.com\\\"\\n  first_name   = \\\"Nadia\\\"\\n  last_name    = \\\"Brennan\\\"\\n  address      = \\\"88 Corliss Street, Weatherby, IL 60622\\\"\\n  phone        = \\\"\\\"\\n\\nGrading rules:\\n- request_type must equal the expected string exactly (\\\"delete\\\" or \\\"know\\\").\\n- reply_to must equal the expected email address (ignore case).\\n- first_name and last_name must match the expected name.\\n- address and phone may differ in minor formatting but must be the same\\n  information.\\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\\n  field MUST be null (or empty). If the model put an invented value in a\\n  field that was supposed to be empty, that is a FAIL.\\n\\nPASS only if every field is correct. If any field is wrong, missing, or\\ninvented, FAIL. Respond with your judgment.\\n\\n</Rubric>\"}]",
+                "renderedAssertionValue": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"delete\"\n  reply_to     = \"nadia.b@examplemail.com\"\n  first_name   = \"Nadia\"\n  last_name    = \"Brennan\"\n  address      = \"88 Corliss Street, Weatherby, IL 60622\"\n  phone        = \"\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              }
+            }
+          ]
+        },
+        "id": "40950da8-325e-47ed-95c2-9a8950127f74",
+        "latencyMs": 2079,
+        "namedScores": {},
+        "prompt": {
+          "raw": "[{\"role\":\"system\",\"content\":\"You extract structured data from privacy opt-out emails. You are given the full text of one email. Return ONLY a single JSON object (no prose, no markdown, no code fences) with exactly these fields:\\n\\n{\\n  \\\"request_type\\\": \\\"delete\\\" | \\\"know\\\",\\n  \\\"reply_to\\\": string,\\n  \\\"first_name\\\": string | null,\\n  \\\"last_name\\\": string | null,\\n  \\\"address\\\": string | null,\\n  \\\"phone\\\": string | null\\n}\\n\\n## Field rules\\n\\nrequest_type — Use EXACTLY one of the two strings \\\"delete\\\" or \\\"know\\\", nothing else.\\n  - \\\"delete\\\" = the person wants their personal data erased / removed / deleted / to stop being kept.\\n  - \\\"know\\\" = the person wants to see, receive, or be told what personal data you hold about them (a right-to-access / right-to-know request).\\n  - If the email asks to KNOW first and then DELETE, treat the ultimate action as \\\"delete\\\".\\n  - Vague opt-out language like \\\"I don't want you keeping my information anymore\\\" maps to \\\"delete\\\".\\n\\nreply_to — The single best email address to reply to.\\n  - This is NOT always the \\\"From:\\\" address. Read the BODY and the SIGNATURE.\\n  - If the writer explicitly says to reply to a different address, use that one.\\n  - If the email is sent by an assistant on behalf of someone else, use the data subject's own address from the signature, not the sender's.\\n  - For a forwarded/quoted thread, use the address of the person actually making the request.\\n\\nfirst_name / last_name — The data subject's real/legal name.\\n  - Prefer the legal name that appears in the body or signature over a nickname or sign-off. (e.g. if the body says \\\"James Whitfield\\\" but they sign \\\"Jimbo\\\", the first name is \\\"James\\\".)\\n  - If only a single first name is available and no last name, set last_name to null.\\n\\naddress — The full mailing/street address if present, otherwise null.\\n\\nphone — The phone number if present, otherwise null.\\n  - If a signature lists more than one number (e.g. a direct line and a mobile), use the primary/direct line.\\n\\n## Absolute rules\\n- Any field not present in the email MUST be null. NEVER invent, guess, or infer data that is not in the email. A missing phone number stays null. A missing last name stays null.\\n- reply_to and request_type will always be present; the other four may be null.\\n- Output the raw JSON object only — no explanation, no ```json fences.\\n\"},{\"role\":\"user\",\"content\":\"Extract the fields from this email:\\n\\nFrom: Nadia Brennan <nadia.b@examplemail.com>\\nSubject: Please remove my data\\n\\nHi there,\\n\\nI'd like all of my personal information deleted from your records. I've moved recently, so for reference my current details are below.\\n\\nNadia Brennan\\n88 Corliss Street, Weatherby, IL 60622\"}]",
+          "label": "extractor",
+          "config": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          }
+        },
+        "promptId": "7488d73850bf2009e6762d270ba53bb4e2f88ec77d3dcebeeed21ebac43dca24",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://provider.js",
+          "label": "sonnet-5-target"
+        },
+        "response": {
+          "output": "{\"request_type\": \"delete\", \"reply_to\": \"nadia.b@examplemail.com\", \"first_name\": \"Nadia\", \"last_name\": \"Brennan\", \"address\": \"88 Corliss Street, Weatherby, IL 60622\", \"phone\": null}",
+          "tokenUsage": {
+            "prompt": 875,
+            "completion": 90,
+            "total": 965
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "id": "8",
+            "email": "From: Nadia Brennan <nadia.b@examplemail.com>\nSubject: Please remove my data\n\nHi there,\n\nI'd like all of my personal information deleted from your records. I've moved recently, so for reference my current details are below.\n\nNadia Brennan\n88 Corliss Street, Weatherby, IL 60622",
+            "expected_request_type": "delete",
+            "expected_reply_to": "nadia.b@examplemail.com",
+            "expected_first_name": "Nadia",
+            "expected_last_name": "Brennan",
+            "expected_address": "88 Corliss Street, Weatherby, IL 60622",
+            "expected_phone": "",
+            "note": "missing-data: no phone number anywhere; expected_phone left blank"
+          },
+          "assert": [
+            {
+              "type": "is-json"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+            }
+          ],
+          "options": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          },
+          "description": "Row #8",
+          "metadata": {}
+        },
+        "testIdx": 7,
+        "tokenUsage": {
+          "prompt": 875,
+          "completion": 90,
+          "cached": 0,
+          "total": 965,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 558,
+            "prompt": 532,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "id": "8",
+          "email": "From: Nadia Brennan <nadia.b@examplemail.com>\nSubject: Please remove my data\n\nHi there,\n\nI'd like all of my personal information deleted from your records. I've moved recently, so for reference my current details are below.\n\nNadia Brennan\n88 Corliss Street, Weatherby, IL 60622",
+          "expected_request_type": "delete",
+          "expected_reply_to": "nadia.b@examplemail.com",
+          "expected_first_name": "Nadia",
+          "expected_last_name": "Brennan",
+          "expected_address": "88 Corliss Street, Weatherby, IL 60622",
+          "expected_phone": "",
+          "note": "missing-data: no phone number anywhere; expected_phone left blank"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 841,
+            "prompt": 490,
+            "completion": 351,
+            "cached": 0,
+            "numRequests": 1
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "is-json"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "Grading passed",
+              "tokensUsed": {
+                "total": 841,
+                "prompt": 490,
+                "completion": 351,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "connection": "keep-alive",
+                    "content-length": "1924",
+                    "content-type": "application/json; charset=utf-8",
+                    "date": "Mon, 06 Jul 2026 00:35:45 GMT",
+                    "etag": "W/\"784-EtzHWqbfcfYtbHnorUebPnpmwrA\"",
+                    "keep-alive": "timeout=5",
+                    "x-powered-by": "Express"
+                  }
+                },
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n{\\\"request_type\\\":\\\"delete\\\",\\\"reply_to\\\":\\\"sunny_k@example.com\\\",\\\"first_name\\\":\\\"sunny\\\",\\\"last_name\\\":null,\\\"address\\\":null,\\\"phone\\\":null}\\n</Output>\\n<Rubric>\\nYou are checking whether an email-extraction result is correct.\\nThe SUBMITTED output is a JSON object with fields: request_type,\\nreply_to, first_name, last_name, address, phone.\\n\\nCompare it against these EXPECTED values:\\n  request_type = \\\"delete\\\"\\n  reply_to     = \\\"sunny_k@example.com\\\"\\n  first_name   = \\\"Sunny\\\"\\n  last_name    = \\\"\\\"\\n  address      = \\\"\\\"\\n  phone        = \\\"\\\"\\n\\nGrading rules:\\n- request_type must equal the expected string exactly (\\\"delete\\\" or \\\"know\\\").\\n- reply_to must equal the expected email address (ignore case).\\n- first_name and last_name must match the expected name.\\n- address and phone may differ in minor formatting but must be the same\\n  information.\\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\\n  field MUST be null (or empty). If the model put an invented value in a\\n  field that was supposed to be empty, that is a FAIL.\\n\\nPASS only if every field is correct. If any field is wrong, missing, or\\ninvented, FAIL. Respond with your judgment.\\n\\n</Rubric>\"}]",
+                "renderedAssertionValue": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"delete\"\n  reply_to     = \"sunny_k@example.com\"\n  first_name   = \"Sunny\"\n  last_name    = \"\"\n  address      = \"\"\n  phone        = \"\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              }
+            }
+          ]
+        },
+        "id": "120e9bbe-e481-49ee-817e-e1647c0078c7",
+        "latencyMs": 1521,
+        "namedScores": {},
+        "prompt": {
+          "raw": "[{\"role\":\"system\",\"content\":\"You extract structured data from privacy opt-out emails. You are given the full text of one email. Return ONLY a single JSON object (no prose, no markdown, no code fences) with exactly these fields:\\n\\n{\\n  \\\"request_type\\\": \\\"delete\\\" | \\\"know\\\",\\n  \\\"reply_to\\\": string,\\n  \\\"first_name\\\": string | null,\\n  \\\"last_name\\\": string | null,\\n  \\\"address\\\": string | null,\\n  \\\"phone\\\": string | null\\n}\\n\\n## Field rules\\n\\nrequest_type — Use EXACTLY one of the two strings \\\"delete\\\" or \\\"know\\\", nothing else.\\n  - \\\"delete\\\" = the person wants their personal data erased / removed / deleted / to stop being kept.\\n  - \\\"know\\\" = the person wants to see, receive, or be told what personal data you hold about them (a right-to-access / right-to-know request).\\n  - If the email asks to KNOW first and then DELETE, treat the ultimate action as \\\"delete\\\".\\n  - Vague opt-out language like \\\"I don't want you keeping my information anymore\\\" maps to \\\"delete\\\".\\n\\nreply_to — The single best email address to reply to.\\n  - This is NOT always the \\\"From:\\\" address. Read the BODY and the SIGNATURE.\\n  - If the writer explicitly says to reply to a different address, use that one.\\n  - If the email is sent by an assistant on behalf of someone else, use the data subject's own address from the signature, not the sender's.\\n  - For a forwarded/quoted thread, use the address of the person actually making the request.\\n\\nfirst_name / last_name — The data subject's real/legal name.\\n  - Prefer the legal name that appears in the body or signature over a nickname or sign-off. (e.g. if the body says \\\"James Whitfield\\\" but they sign \\\"Jimbo\\\", the first name is \\\"James\\\".)\\n  - If only a single first name is available and no last name, set last_name to null.\\n\\naddress — The full mailing/street address if present, otherwise null.\\n\\nphone — The phone number if present, otherwise null.\\n  - If a signature lists more than one number (e.g. a direct line and a mobile), use the primary/direct line.\\n\\n## Absolute rules\\n- Any field not present in the email MUST be null. NEVER invent, guess, or infer data that is not in the email. A missing phone number stays null. A missing last name stays null.\\n- reply_to and request_type will always be present; the other four may be null.\\n- Output the raw JSON object only — no explanation, no ```json fences.\\n\"},{\"role\":\"user\",\"content\":\"Extract the fields from this email:\\n\\nFrom: sunny_k@example.com\\nSubject: my data\\n\\nhey can you delete whatever info you've got on me? really don't want to be on any lists anymore.\\nthanks\\nsunny\"}]",
+          "label": "extractor",
+          "config": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          }
+        },
+        "promptId": "7488d73850bf2009e6762d270ba53bb4e2f88ec77d3dcebeeed21ebac43dca24",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://provider.js",
+          "label": "sonnet-5-target"
+        },
+        "response": {
+          "output": "{\"request_type\": \"delete\", \"reply_to\": \"sunny_k@example.com\", \"first_name\": \"sunny\", \"last_name\": null, \"address\": null, \"phone\": null}",
+          "tokenUsage": {
+            "prompt": 826,
+            "completion": 57,
+            "total": 883
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "id": "9",
+            "email": "From: sunny_k@example.com\nSubject: my data\n\nhey can you delete whatever info you've got on me? really don't want to be on any lists anymore.\nthanks\nsunny",
+            "expected_request_type": "delete",
+            "expected_reply_to": "sunny_k@example.com",
+            "expected_first_name": "Sunny",
+            "expected_last_name": "",
+            "expected_address": "",
+            "expected_phone": "",
+            "note": "missing-data: only a first name and email; no last name, address, or phone"
+          },
+          "assert": [
+            {
+              "type": "is-json"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+            }
+          ],
+          "options": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          },
+          "description": "Row #9",
+          "metadata": {}
+        },
+        "testIdx": 8,
+        "tokenUsage": {
+          "prompt": 826,
+          "completion": 57,
+          "cached": 0,
+          "total": 883,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 841,
+            "prompt": 490,
+            "completion": 351,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "id": "9",
+          "email": "From: sunny_k@example.com\nSubject: my data\n\nhey can you delete whatever info you've got on me? really don't want to be on any lists anymore.\nthanks\nsunny",
+          "expected_request_type": "delete",
+          "expected_reply_to": "sunny_k@example.com",
+          "expected_first_name": "Sunny",
+          "expected_last_name": "",
+          "expected_address": "",
+          "expected_phone": "",
+          "note": "missing-data: only a first name and email; no last name, address, or phone"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 581,
+            "prompt": 555,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "is-json"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "The request_type field is correct.",
+              "tokensUsed": {
+                "total": 581,
+                "prompt": 555,
+                "completion": 26,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "connection": "keep-alive",
+                    "content-length": "685",
+                    "content-type": "application/json; charset=utf-8",
+                    "date": "Mon, 06 Jul 2026 00:35:36 GMT",
+                    "etag": "W/\"2ad-xfFGm2XQdzAaxeieDuUaROBNfQE\"",
+                    "keep-alive": "timeout=5",
+                    "x-powered-by": "Express"
+                  }
+                },
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n{\\\"request_type\\\":\\\"delete\\\",\\\"reply_to\\\":\\\"r.santos@example.net\\\",\\\"first_name\\\":\\\"Reggie\\\",\\\"last_name\\\":\\\"Santos\\\",\\\"address\\\":\\\"14 Dovecote Lane, Ashby Falls, OR 97501\\\",\\\"phone\\\":\\\"(555) 019-8123\\\"}\\n</Output>\\n<Rubric>\\nYou are checking whether an email-extraction result is correct.\\nThe SUBMITTED output is a JSON object with fields: request_type,\\nreply_to, first_name, last_name, address, phone.\\n\\nCompare it against these EXPECTED values:\\n  request_type = \\\"delete\\\"\\n  reply_to     = \\\"r.santos@example.net\\\"\\n  first_name   = \\\"Reggie\\\"\\n  last_name    = \\\"Santos\\\"\\n  address      = \\\"14 Dovecote Lane, Ashby Falls, OR 97501\\\"\\n  phone        = \\\"(555) 019-8123\\\"\\n\\nGrading rules:\\n- request_type must equal the expected string exactly (\\\"delete\\\" or \\\"know\\\").\\n- reply_to must equal the expected email address (ignore case).\\n- first_name and last_name must match the expected name.\\n- address and phone may differ in minor formatting but must be the same\\n  information.\\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\\n  field MUST be null (or empty). If the model put an invented value in a\\n  field that was supposed to be empty, that is a FAIL.\\n\\nPASS only if every field is correct. If any field is wrong, missing, or\\ninvented, FAIL. Respond with your judgment.\\n\\n</Rubric>\"}]",
+                "renderedAssertionValue": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"delete\"\n  reply_to     = \"r.santos@example.net\"\n  first_name   = \"Reggie\"\n  last_name    = \"Santos\"\n  address      = \"14 Dovecote Lane, Ashby Falls, OR 97501\"\n  phone        = \"(555) 019-8123\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              }
+            }
+          ]
+        },
+        "id": "51715d0b-fd19-4487-bc4d-c735666cf4db",
+        "latencyMs": 1915,
+        "namedScores": {},
+        "prompt": {
+          "raw": "[{\"role\":\"system\",\"content\":\"You extract structured data from privacy opt-out emails. You are given the full text of one email. Return ONLY a single JSON object (no prose, no markdown, no code fences) with exactly these fields:\\n\\n{\\n  \\\"request_type\\\": \\\"delete\\\" | \\\"know\\\",\\n  \\\"reply_to\\\": string,\\n  \\\"first_name\\\": string | null,\\n  \\\"last_name\\\": string | null,\\n  \\\"address\\\": string | null,\\n  \\\"phone\\\": string | null\\n}\\n\\n## Field rules\\n\\nrequest_type — Use EXACTLY one of the two strings \\\"delete\\\" or \\\"know\\\", nothing else.\\n  - \\\"delete\\\" = the person wants their personal data erased / removed / deleted / to stop being kept.\\n  - \\\"know\\\" = the person wants to see, receive, or be told what personal data you hold about them (a right-to-access / right-to-know request).\\n  - If the email asks to KNOW first and then DELETE, treat the ultimate action as \\\"delete\\\".\\n  - Vague opt-out language like \\\"I don't want you keeping my information anymore\\\" maps to \\\"delete\\\".\\n\\nreply_to — The single best email address to reply to.\\n  - This is NOT always the \\\"From:\\\" address. Read the BODY and the SIGNATURE.\\n  - If the writer explicitly says to reply to a different address, use that one.\\n  - If the email is sent by an assistant on behalf of someone else, use the data subject's own address from the signature, not the sender's.\\n  - For a forwarded/quoted thread, use the address of the person actually making the request.\\n\\nfirst_name / last_name — The data subject's real/legal name.\\n  - Prefer the legal name that appears in the body or signature over a nickname or sign-off. (e.g. if the body says \\\"James Whitfield\\\" but they sign \\\"Jimbo\\\", the first name is \\\"James\\\".)\\n  - If only a single first name is available and no last name, set last_name to null.\\n\\naddress — The full mailing/street address if present, otherwise null.\\n\\nphone — The phone number if present, otherwise null.\\n  - If a signature lists more than one number (e.g. a direct line and a mobile), use the primary/direct line.\\n\\n## Absolute rules\\n- Any field not present in the email MUST be null. NEVER invent, guess, or infer data that is not in the email. A missing phone number stays null. A missing last name stays null.\\n- reply_to and request_type will always be present; the other four may be null.\\n- Output the raw JSON object only — no explanation, no ```json fences.\\n\"},{\"role\":\"user\",\"content\":\"Extract the fields from this email:\\n\\nFrom: Reggie Santos <r.santos@example.net>\\nSubject: my information\\n\\nI don't want you keeping my personal information anymore. Can you sort that out for me?\\n\\nReggie Santos\\n14 Dovecote Lane, Ashby Falls, OR 97501\\n(555) 019-8123\"}]",
+          "label": "extractor",
+          "config": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          }
+        },
+        "promptId": "7488d73850bf2009e6762d270ba53bb4e2f88ec77d3dcebeeed21ebac43dca24",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://provider.js",
+          "label": "sonnet-5-target"
+        },
+        "response": {
+          "output": "{\n  \"request_type\": \"delete\",\n  \"reply_to\": \"r.santos@example.net\",\n  \"first_name\": \"Reggie\",\n  \"last_name\": \"Santos\",\n  \"address\": \"14 Dovecote Lane, Ashby Falls, OR 97501\",\n  \"phone\": \"(555) 019-8123\"\n}",
+          "tokenUsage": {
+            "prompt": 864,
+            "completion": 119,
+            "total": 983
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "id": "10",
+            "email": "From: Reggie Santos <r.santos@example.net>\nSubject: my information\n\nI don't want you keeping my personal information anymore. Can you sort that out for me?\n\nReggie Santos\n14 Dovecote Lane, Ashby Falls, OR 97501\n(555) 019-8123",
+            "expected_request_type": "delete",
+            "expected_reply_to": "r.santos@example.net",
+            "expected_first_name": "Reggie",
+            "expected_last_name": "Santos",
+            "expected_address": "14 Dovecote Lane, Ashby Falls, OR 97501",
+            "expected_phone": "(555) 019-8123",
+            "note": "ambiguous delete-vs-know: 'don't want you keeping my info anymore' could read as opt-out, but most defensibly maps to deletion"
+          },
+          "assert": [
+            {
+              "type": "is-json"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+            }
+          ],
+          "options": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          },
+          "description": "Row #10",
+          "metadata": {}
+        },
+        "testIdx": 9,
+        "tokenUsage": {
+          "prompt": 864,
+          "completion": 119,
+          "cached": 0,
+          "total": 983,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 581,
+            "prompt": 555,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "id": "10",
+          "email": "From: Reggie Santos <r.santos@example.net>\nSubject: my information\n\nI don't want you keeping my personal information anymore. Can you sort that out for me?\n\nReggie Santos\n14 Dovecote Lane, Ashby Falls, OR 97501\n(555) 019-8123",
+          "expected_request_type": "delete",
+          "expected_reply_to": "r.santos@example.net",
+          "expected_first_name": "Reggie",
+          "expected_last_name": "Santos",
+          "expected_address": "14 Dovecote Lane, Ashby Falls, OR 97501",
+          "expected_phone": "(555) 019-8123",
+          "note": "ambiguous delete-vs-know: 'don't want you keeping my info anymore' could read as opt-out, but most defensibly maps to deletion"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 589,
+            "prompt": 563,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "is-json"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "The request_type field is correct.",
+              "tokensUsed": {
+                "total": 589,
+                "prompt": 563,
+                "completion": 26,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "connection": "keep-alive",
+                    "content-length": "685",
+                    "content-type": "application/json; charset=utf-8",
+                    "date": "Mon, 06 Jul 2026 00:35:35 GMT",
+                    "etag": "W/\"2ad-JmHW/SMLbLoWihC4pj+KtCYNYAk\"",
+                    "keep-alive": "timeout=5",
+                    "x-powered-by": "Express"
+                  }
+                },
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n{\\\"request_type\\\":\\\"delete\\\",\\\"reply_to\\\":\\\"carla.nguyen@examplemail.com\\\",\\\"first_name\\\":\\\"Carla\\\",\\\"last_name\\\":\\\"Nguyen\\\",\\\"address\\\":\\\"730 Ashfield Blvd, Renton Heights, CO 80014\\\",\\\"phone\\\":\\\"(555) 019-5540\\\"}\\n</Output>\\n<Rubric>\\nYou are checking whether an email-extraction result is correct.\\nThe SUBMITTED output is a JSON object with fields: request_type,\\nreply_to, first_name, last_name, address, phone.\\n\\nCompare it against these EXPECTED values:\\n  request_type = \\\"delete\\\"\\n  reply_to     = \\\"carla.nguyen@examplemail.com\\\"\\n  first_name   = \\\"Carla\\\"\\n  last_name    = \\\"Nguyen\\\"\\n  address      = \\\"730 Ashfield Blvd, Renton Heights, CO 80014\\\"\\n  phone        = \\\"(555) 019-5540\\\"\\n\\nGrading rules:\\n- request_type must equal the expected string exactly (\\\"delete\\\" or \\\"know\\\").\\n- reply_to must equal the expected email address (ignore case).\\n- first_name and last_name must match the expected name.\\n- address and phone may differ in minor formatting but must be the same\\n  information.\\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\\n  field MUST be null (or empty). If the model put an invented value in a\\n  field that was supposed to be empty, that is a FAIL.\\n\\nPASS only if every field is correct. If any field is wrong, missing, or\\ninvented, FAIL. Respond with your judgment.\\n\\n</Rubric>\"}]",
+                "renderedAssertionValue": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"delete\"\n  reply_to     = \"carla.nguyen@examplemail.com\"\n  first_name   = \"Carla\"\n  last_name    = \"Nguyen\"\n  address      = \"730 Ashfield Blvd, Renton Heights, CO 80014\"\n  phone        = \"(555) 019-5540\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              }
+            }
+          ]
+        },
+        "id": "bd2da8e5-5a47-4dda-883b-c609a0c8f316",
+        "latencyMs": 1589,
+        "namedScores": {},
+        "prompt": {
+          "raw": "[{\"role\":\"system\",\"content\":\"You extract structured data from privacy opt-out emails. You are given the full text of one email. Return ONLY a single JSON object (no prose, no markdown, no code fences) with exactly these fields:\\n\\n{\\n  \\\"request_type\\\": \\\"delete\\\" | \\\"know\\\",\\n  \\\"reply_to\\\": string,\\n  \\\"first_name\\\": string | null,\\n  \\\"last_name\\\": string | null,\\n  \\\"address\\\": string | null,\\n  \\\"phone\\\": string | null\\n}\\n\\n## Field rules\\n\\nrequest_type — Use EXACTLY one of the two strings \\\"delete\\\" or \\\"know\\\", nothing else.\\n  - \\\"delete\\\" = the person wants their personal data erased / removed / deleted / to stop being kept.\\n  - \\\"know\\\" = the person wants to see, receive, or be told what personal data you hold about them (a right-to-access / right-to-know request).\\n  - If the email asks to KNOW first and then DELETE, treat the ultimate action as \\\"delete\\\".\\n  - Vague opt-out language like \\\"I don't want you keeping my information anymore\\\" maps to \\\"delete\\\".\\n\\nreply_to — The single best email address to reply to.\\n  - This is NOT always the \\\"From:\\\" address. Read the BODY and the SIGNATURE.\\n  - If the writer explicitly says to reply to a different address, use that one.\\n  - If the email is sent by an assistant on behalf of someone else, use the data subject's own address from the signature, not the sender's.\\n  - For a forwarded/quoted thread, use the address of the person actually making the request.\\n\\nfirst_name / last_name — The data subject's real/legal name.\\n  - Prefer the legal name that appears in the body or signature over a nickname or sign-off. (e.g. if the body says \\\"James Whitfield\\\" but they sign \\\"Jimbo\\\", the first name is \\\"James\\\".)\\n  - If only a single first name is available and no last name, set last_name to null.\\n\\naddress — The full mailing/street address if present, otherwise null.\\n\\nphone — The phone number if present, otherwise null.\\n  - If a signature lists more than one number (e.g. a direct line and a mobile), use the primary/direct line.\\n\\n## Absolute rules\\n- Any field not present in the email MUST be null. NEVER invent, guess, or infer data that is not in the email. A missing phone number stays null. A missing last name stays null.\\n- reply_to and request_type will always be present; the other four may be null.\\n- Output the raw JSON object only — no explanation, no ```json fences.\\n\"},{\"role\":\"user\",\"content\":\"Extract the fields from this email:\\n\\nFrom: Carla Nguyen <carla.nguyen@examplemail.com>\\nSubject: two requests\\n\\nHi,\\n\\nFirst, I'd like to know exactly what personal data you have on file for me. Second, once you've shown me, I want all of it deleted.\\n\\nThanks,\\nCarla Nguyen\\n730 Ashfield Blvd, Renton Heights, CO 80014\\n(555) 019-5540\"}]",
+          "label": "extractor",
+          "config": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          }
+        },
+        "promptId": "7488d73850bf2009e6762d270ba53bb4e2f88ec77d3dcebeeed21ebac43dca24",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://provider.js",
+          "label": "sonnet-5-target"
+        },
+        "response": {
+          "output": "{\"request_type\": \"delete\", \"reply_to\": \"carla.nguyen@examplemail.com\", \"first_name\": \"Carla\", \"last_name\": \"Nguyen\", \"address\": \"730 Ashfield Blvd, Renton Heights, CO 80014\", \"phone\": \"(555) 019-5540\"}",
+          "tokenUsage": {
+            "prompt": 899,
+            "completion": 100,
+            "total": 999
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "id": "11",
+            "email": "From: Carla Nguyen <carla.nguyen@examplemail.com>\nSubject: two requests\n\nHi,\n\nFirst, I'd like to know exactly what personal data you have on file for me. Second, once you've shown me, I want all of it deleted.\n\nThanks,\nCarla Nguyen\n730 Ashfield Blvd, Renton Heights, CO 80014\n(555) 019-5540",
+            "expected_request_type": "delete",
+            "expected_reply_to": "carla.nguyen@examplemail.com",
+            "expected_first_name": "Carla",
+            "expected_last_name": "Nguyen",
+            "expected_address": "730 Ashfield Blvd, Renton Heights, CO 80014",
+            "expected_phone": "(555) 019-5540",
+            "note": "mixed request: asks to KNOW then DELETE; ground truth set to 'delete' as the ultimate action (a 'know' answer may also be defensible)"
+          },
+          "assert": [
+            {
+              "type": "is-json"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+            }
+          ],
+          "options": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          },
+          "description": "Row #11",
+          "metadata": {}
+        },
+        "testIdx": 10,
+        "tokenUsage": {
+          "prompt": 899,
+          "completion": 100,
+          "cached": 0,
+          "total": 999,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 589,
+            "prompt": 563,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "id": "11",
+          "email": "From: Carla Nguyen <carla.nguyen@examplemail.com>\nSubject: two requests\n\nHi,\n\nFirst, I'd like to know exactly what personal data you have on file for me. Second, once you've shown me, I want all of it deleted.\n\nThanks,\nCarla Nguyen\n730 Ashfield Blvd, Renton Heights, CO 80014\n(555) 019-5540",
+          "expected_request_type": "delete",
+          "expected_reply_to": "carla.nguyen@examplemail.com",
+          "expected_first_name": "Carla",
+          "expected_last_name": "Nguyen",
+          "expected_address": "730 Ashfield Blvd, Renton Heights, CO 80014",
+          "expected_phone": "(555) 019-5540",
+          "note": "mixed request: asks to KNOW then DELETE; ground truth set to 'delete' as the ultimate action (a 'know' answer may also be defensible)"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 595,
+            "prompt": 569,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "is-json"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "The request_type field is correct.",
+              "tokensUsed": {
+                "total": 595,
+                "prompt": 569,
+                "completion": 26,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0
+                }
+              },
+              "metadata": {
+                "http": {
+                  "status": 200,
+                  "statusText": "OK",
+                  "headers": {
+                    "connection": "keep-alive",
+                    "content-length": "685",
+                    "content-type": "application/json; charset=utf-8",
+                    "date": "Mon, 06 Jul 2026 00:35:35 GMT",
+                    "etag": "W/\"2ad-t5reOcVmQled5M8ewfX1ef57QdI\"",
+                    "keep-alive": "timeout=5",
+                    "x-powered-by": "Express"
+                  }
+                },
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\n{\\\"request_type\\\":\\\"delete\\\",\\\"reply_to\\\":\\\"d.paulson@example.com\\\",\\\"first_name\\\":\\\"Derek\\\",\\\"last_name\\\":\\\"Paulson\\\",\\\"address\\\":\\\"1400 Corporate Plaza, Suite 900, Fenwick, GA 30301\\\",\\\"phone\\\":\\\"(555) 019-0074\\\"}\\n</Output>\\n<Rubric>\\nYou are checking whether an email-extraction result is correct.\\nThe SUBMITTED output is a JSON object with fields: request_type,\\nreply_to, first_name, last_name, address, phone.\\n\\nCompare it against these EXPECTED values:\\n  request_type = \\\"delete\\\"\\n  reply_to     = \\\"d.paulson@example.com\\\"\\n  first_name   = \\\"Derek\\\"\\n  last_name    = \\\"Paulson\\\"\\n  address      = \\\"1400 Corporate Plaza, Suite 900, Fenwick, GA 30301\\\"\\n  phone        = \\\"(555) 019-0074\\\"\\n\\nGrading rules:\\n- request_type must equal the expected string exactly (\\\"delete\\\" or \\\"know\\\").\\n- reply_to must equal the expected email address (ignore case).\\n- first_name and last_name must match the expected name.\\n- address and phone may differ in minor formatting but must be the same\\n  information.\\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\\n  field MUST be null (or empty). If the model put an invented value in a\\n  field that was supposed to be empty, that is a FAIL.\\n\\nPASS only if every field is correct. If any field is wrong, missing, or\\ninvented, FAIL. Respond with your judgment.\\n\\n</Rubric>\"}]",
+                "renderedAssertionValue": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"delete\"\n  reply_to     = \"d.paulson@example.com\"\n  first_name   = \"Derek\"\n  last_name    = \"Paulson\"\n  address      = \"1400 Corporate Plaza, Suite 900, Fenwick, GA 30301\"\n  phone        = \"(555) 019-0074\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+              }
+            }
+          ]
+        },
+        "id": "5de0607b-0791-412a-85dd-903f4c0219fb",
+        "latencyMs": 1680,
+        "namedScores": {},
+        "prompt": {
+          "raw": "[{\"role\":\"system\",\"content\":\"You extract structured data from privacy opt-out emails. You are given the full text of one email. Return ONLY a single JSON object (no prose, no markdown, no code fences) with exactly these fields:\\n\\n{\\n  \\\"request_type\\\": \\\"delete\\\" | \\\"know\\\",\\n  \\\"reply_to\\\": string,\\n  \\\"first_name\\\": string | null,\\n  \\\"last_name\\\": string | null,\\n  \\\"address\\\": string | null,\\n  \\\"phone\\\": string | null\\n}\\n\\n## Field rules\\n\\nrequest_type — Use EXACTLY one of the two strings \\\"delete\\\" or \\\"know\\\", nothing else.\\n  - \\\"delete\\\" = the person wants their personal data erased / removed / deleted / to stop being kept.\\n  - \\\"know\\\" = the person wants to see, receive, or be told what personal data you hold about them (a right-to-access / right-to-know request).\\n  - If the email asks to KNOW first and then DELETE, treat the ultimate action as \\\"delete\\\".\\n  - Vague opt-out language like \\\"I don't want you keeping my information anymore\\\" maps to \\\"delete\\\".\\n\\nreply_to — The single best email address to reply to.\\n  - This is NOT always the \\\"From:\\\" address. Read the BODY and the SIGNATURE.\\n  - If the writer explicitly says to reply to a different address, use that one.\\n  - If the email is sent by an assistant on behalf of someone else, use the data subject's own address from the signature, not the sender's.\\n  - For a forwarded/quoted thread, use the address of the person actually making the request.\\n\\nfirst_name / last_name — The data subject's real/legal name.\\n  - Prefer the legal name that appears in the body or signature over a nickname or sign-off. (e.g. if the body says \\\"James Whitfield\\\" but they sign \\\"Jimbo\\\", the first name is \\\"James\\\".)\\n  - If only a single first name is available and no last name, set last_name to null.\\n\\naddress — The full mailing/street address if present, otherwise null.\\n\\nphone — The phone number if present, otherwise null.\\n  - If a signature lists more than one number (e.g. a direct line and a mobile), use the primary/direct line.\\n\\n## Absolute rules\\n- Any field not present in the email MUST be null. NEVER invent, guess, or infer data that is not in the email. A missing phone number stays null. A missing last name stays null.\\n- reply_to and request_type will always be present; the other four may be null.\\n- Output the raw JSON object only — no explanation, no ```json fences.\\n\"},{\"role\":\"user\",\"content\":\"Extract the fields from this email:\\n\\nFrom: Derek Paulson <d.paulson@example.com>\\nSubject: Fwd: Re: Re: inquiry\\n\\n---------- Forwarded message ---------\\nFrom: Derek Paulson <d.paulson@example.com>\\nDate: Tue, Jun 24, 2026\\nSubject: Re: Re: inquiry\\nTo: Support <support@megacorp.example.com>\\n\\n\\nhi -   sorry for the mess of a thread below. bottom line, i want you to DELETE all of my personal data. you can reach me at this same address.\\n\\nthanks,\\nDerek\\n\\n\\n> On Jun 23, 2026, support@megacorp.example.com wrote:\\n> Thanks for reaching out! Can you confirm your request?\\n>\\n>> On Jun 22, 2026, Derek Paulson wrote:\\n>> hello i have a question about my privacy\\n>>\\n\\nDerek Paulson\\nSenior Logistics Coordinator  |  Megacorp Industries LLC\\nDirect: (555) 019-0074   |   Mobile: (555) 019-0088\\n1400 Corporate Plaza, Suite 900, Fenwick, GA 30301\\nThis email and any attachments are confidential and intended solely for the addressee. If you have received this message in error, please notify the sender and delete all copies. Megacorp Industries LLC does not accept liability for any damage caused by this email.\"}]",
+          "label": "extractor",
+          "config": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          }
+        },
+        "promptId": "7488d73850bf2009e6762d270ba53bb4e2f88ec77d3dcebeeed21ebac43dca24",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://provider.js",
+          "label": "sonnet-5-target"
+        },
+        "response": {
+          "output": "{\"request_type\": \"delete\", \"reply_to\": \"d.paulson@example.com\", \"first_name\": \"Derek\", \"last_name\": \"Paulson\", \"address\": \"1400 Corporate Plaza, Suite 900, Fenwick, GA 30301\", \"phone\": \"(555) 019-0074\"}",
+          "tokenUsage": {
+            "prompt": 1207,
+            "completion": 99,
+            "total": 1306
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "id": "12",
+            "email": "From: Derek Paulson <d.paulson@example.com>\nSubject: Fwd: Re: Re: inquiry\n\n---------- Forwarded message ---------\nFrom: Derek Paulson <d.paulson@example.com>\nDate: Tue, Jun 24, 2026\nSubject: Re: Re: inquiry\nTo: Support <support@megacorp.example.com>\n\n\nhi -   sorry for the mess of a thread below. bottom line, i want you to DELETE all of my personal data. you can reach me at this same address.\n\nthanks,\nDerek\n\n\n> On Jun 23, 2026, support@megacorp.example.com wrote:\n> Thanks for reaching out! Can you confirm your request?\n>\n>> On Jun 22, 2026, Derek Paulson wrote:\n>> hello i have a question about my privacy\n>>\n\nDerek Paulson\nSenior Logistics Coordinator  |  Megacorp Industries LLC\nDirect: (555) 019-0074   |   Mobile: (555) 019-0088\n1400 Corporate Plaza, Suite 900, Fenwick, GA 30301\nThis email and any attachments are confidential and intended solely for the addressee. If you have received this message in error, please notify the sender and delete all copies. Megacorp Industries LLC does not accept liability for any damage caused by this email.",
+            "expected_request_type": "delete",
+            "expected_reply_to": "d.paulson@example.com",
+            "expected_first_name": "Derek",
+            "expected_last_name": "Paulson",
+            "expected_address": "1400 Corporate Plaza, Suite 900, Fenwick, GA 30301",
+            "expected_phone": "(555) 019-0074",
+            "note": "messy forwarded email with quoted-reply junk and corporate signature noise; signature has two numbers (Direct + Mobile), Direct line used as expected_phone"
+          },
+          "assert": [
+            {
+              "type": "is-json"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+            }
+          ],
+          "options": {
+            "provider": {
+              "id": "openai:chat:google/gemma-3-4b",
+              "config": {
+                "apiBaseUrl": "http://localhost:1234/v1",
+                "apiKey": "[REDACTED]",
+                "temperature": 0
+              }
+            },
+            "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+          },
+          "description": "Row #12",
+          "metadata": {}
+        },
+        "testIdx": 11,
+        "tokenUsage": {
+          "prompt": 1207,
+          "completion": 99,
+          "cached": 0,
+          "total": 1306,
+          "numRequests": 1,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          },
+          "assertions": {
+            "total": 595,
+            "prompt": 569,
+            "completion": 26,
+            "cached": 0,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0,
+              "cacheReadInputTokens": 0,
+              "cacheCreationInputTokens": 0
+            }
+          }
+        },
+        "vars": {
+          "id": "12",
+          "email": "From: Derek Paulson <d.paulson@example.com>\nSubject: Fwd: Re: Re: inquiry\n\n---------- Forwarded message ---------\nFrom: Derek Paulson <d.paulson@example.com>\nDate: Tue, Jun 24, 2026\nSubject: Re: Re: inquiry\nTo: Support <support@megacorp.example.com>\n\n\nhi -   sorry for the mess of a thread below. bottom line, i want you to DELETE all of my personal data. you can reach me at this same address.\n\nthanks,\nDerek\n\n\n> On Jun 23, 2026, support@megacorp.example.com wrote:\n> Thanks for reaching out! Can you confirm your request?\n>\n>> On Jun 22, 2026, Derek Paulson wrote:\n>> hello i have a question about my privacy\n>>\n\nDerek Paulson\nSenior Logistics Coordinator  |  Megacorp Industries LLC\nDirect: (555) 019-0074   |   Mobile: (555) 019-0088\n1400 Corporate Plaza, Suite 900, Fenwick, GA 30301\nThis email and any attachments are confidential and intended solely for the addressee. If you have received this message in error, please notify the sender and delete all copies. Megacorp Industries LLC does not accept liability for any damage caused by this email.",
+          "expected_request_type": "delete",
+          "expected_reply_to": "d.paulson@example.com",
+          "expected_first_name": "Derek",
+          "expected_last_name": "Paulson",
+          "expected_address": "1400 Corporate Plaza, Suite 900, Fenwick, GA 30301",
+          "expected_phone": "(555) 019-0074",
+          "note": "messy forwarded email with quoted-reply junk and corporate signature noise; signature has two numbers (Direct + Mobile), Direct line used as expected_phone"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      }
+    ],
+    "stats": {
+      "successes": 12,
+      "failures": 0,
+      "errors": 0,
+      "tokenUsage": {
+        "prompt": 11087,
+        "completion": 1119,
+        "cached": 0,
+        "total": 12206,
+        "numRequests": 12,
+        "completionDetails": {
+          "reasoning": 0,
+          "acceptedPrediction": 0,
+          "rejectedPrediction": 0,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0
+        },
+        "assertions": {
+          "total": 7248,
+          "prompt": 6611,
+          "completion": 637,
+          "cached": 0,
+          "numRequests": 0,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0,
+            "cacheReadInputTokens": 0,
+            "cacheCreationInputTokens": 0
+          }
+        }
+      },
+      "durationMs": 52284,
+      "evaluationDurationMs": 52284
+    }
+  },
+  "config": {
+    "tags": {},
+    "description": "Opt-out email extraction — structured JSON, graded by a LOCAL model",
+    "prompts": [
+      {
+        "id": "file:///Users/alfrednutile/Apps/training-evals/example_2/prompt.js",
+        "label": "extractor"
+      }
+    ],
+    "providers": [
+      {
+        "id": "file://provider.js",
+        "label": "sonnet-5-target",
+        "config": {
+          "model": "claude-sonnet-5",
+          "max_tokens": 500
+        }
+      }
+    ],
+    "tests": [
+      {
+        "vars": {
+          "id": "1",
+          "email": "From: Marcus Delgado <marcus.delgado@example.com>\nSubject: Remove my information immediately\n\nThis is the THIRD time I'm asking. Delete everything you have on me. I never signed up for any of this and I want all my personal data ERASED from your systems. Now.\n\nMarcus Delgado\n842 Hollow Creek Rd, Danforth, OH 44112\n(555) 019-2837",
+          "expected_request_type": "delete",
+          "expected_reply_to": "marcus.delgado@example.com",
+          "expected_first_name": "Marcus",
+          "expected_last_name": "Delgado",
+          "expected_address": "842 Hollow Creek Rd, Danforth, OH 44112",
+          "expected_phone": "(555) 019-2837",
+          "note": "angry tone; all fields present"
+        },
+        "assert": [],
+        "options": {},
+        "description": "Row #1"
+      },
+      {
+        "vars": {
+          "id": "2",
+          "email": "From: Priya Raman <priya.raman@examplemail.com>\nSubject: A small request regarding my personal data\n\nHello, I do hope you're having a lovely day. Whenever you have a spare moment, I would be ever so grateful if you could kindly send me a copy of all the personal information you currently hold about me. Thank you so very much for your time and your help with this.\n\nWarmest regards,\nPriya Raman\n17 Maplewood Lane, Apt 3, Kestrel City, TX 78502\n(555) 019-4471",
+          "expected_request_type": "know",
+          "expected_reply_to": "priya.raman@examplemail.com",
+          "expected_first_name": "Priya",
+          "expected_last_name": "Raman",
+          "expected_address": "17 Maplewood Lane, Apt 3, Kestrel City, TX 78502",
+          "expected_phone": "(555) 019-4471",
+          "note": "overly polite; right-to-know; all fields present"
+        },
+        "assert": [],
+        "options": {},
+        "description": "Row #2"
+      },
+      {
+        "vars": {
+          "id": "3",
+          "email": "From: Greg Holt <gholt@example.org>\nSubject: opt out\n\nDelete my account and everything you have on me. Thanks.\nGreg Holt, 3390 Birchwood Ave, Selby, WA 98221, 555-0163",
+          "expected_request_type": "delete",
+          "expected_reply_to": "gholt@example.org",
+          "expected_first_name": "Greg",
+          "expected_last_name": "Holt",
+          "expected_address": "3390 Birchwood Ave, Selby, WA 98221",
+          "expected_phone": "555-0163",
+          "note": "terse two-liner; all fields present"
+        },
+        "assert": [],
+        "options": {},
+        "description": "Row #3"
+      },
+      {
+        "vars": {
+          "id": "4",
+          "email": "From: Eleanor Voss <e.voss@examplemail.net>\nSubject: what do you have on me\n\nSo I was chatting with my neighbor the other day and she mentioned that companies keep all sorts of files on people, and honestly it got me thinking, because I've been getting a lot of odd mail lately and I really would just like to understand what exactly it is that you have on record for me, all of it if that's possible, so I can wrap my head around where all of this is coming from. I'm at 6 Tanager Court, Millbrook, ME 04008 and you can reach me at (555) 019-7756 if that's easier.\n\nEleanor Voss",
+          "expected_request_type": "know",
+          "expected_reply_to": "e.voss@examplemail.net",
+          "expected_first_name": "Eleanor",
+          "expected_last_name": "Voss",
+          "expected_address": "6 Tanager Court, Millbrook, ME 04008",
+          "expected_phone": "(555) 019-7756",
+          "note": "rambling single paragraph; right-to-know"
+        },
+        "assert": [],
+        "options": {},
+        "description": "Row #4"
+      },
+      {
+        "vars": {
+          "id": "5",
+          "email": "From: Tomas Okafor <t.okafor@northgate-industrial.example.com>\nSubject: data deletion request\n\nI'm sending this from my work account, but please don't reply here - this inbox gets monitored and I'd rather keep this personal. Reply to me at tomasokafor@example.net instead.\n\nPlease delete all of the personal data you hold on me.\n\nTomas Okafor\n221 Founders Way, Loxley, PA 19040\n(555) 019-3312",
+          "expected_request_type": "delete",
+          "expected_reply_to": "tomasokafor@example.net",
+          "expected_first_name": "Tomas",
+          "expected_last_name": "Okafor",
+          "expected_address": "221 Founders Way, Loxley, PA 19040",
+          "expected_phone": "(555) 019-3312",
+          "note": "reply-to trap: From is work address; real reply-to stated in body"
+        },
+        "assert": [],
+        "options": {},
+        "description": "Row #5"
+      },
+      {
+        "vars": {
+          "id": "6",
+          "email": "From: Executive Assistant <assistant@brightfold.example.com>\nSubject: Data request on behalf of Ms. Foster\n\nHello,\n\nI'm writing on behalf of Ms. Diane Foster, who would like a copy of the personal information your company holds about her. Please direct your response to her directly.\n\nBest,\nJ. Alvarez\nOffice of Diane Foster\n\n--\nDiane Foster\nPrincipal\ndfoster@example.org\n109 Rue Verte, Apt 12, Harwick, NJ 07001\n(555) 019-6690",
+          "expected_request_type": "know",
+          "expected_reply_to": "dfoster@example.org",
+          "expected_first_name": "Diane",
+          "expected_last_name": "Foster",
+          "expected_address": "109 Rue Verte, Apt 12, Harwick, NJ 07001",
+          "expected_phone": "(555) 019-6690",
+          "note": "reply-to trap: From is assistant; real reply-to buried in signature"
+        },
+        "assert": [],
+        "options": {},
+        "description": "Row #6"
+      },
+      {
+        "vars": {
+          "id": "7",
+          "email": "From: James Whitfield <jwhitfield@example.com>\nSubject: delete me\n\nHey, this is James Whitfield - most folks know me as Jimbo. I want you to delete all the data you've got on me, please.\n\nCheers,\nJimbo\n55 Preston Row, Aldermarsh, NV 89044\n(555) 019-2201",
+          "expected_request_type": "delete",
+          "expected_reply_to": "jwhitfield@example.com",
+          "expected_first_name": "James",
+          "expected_last_name": "Whitfield",
+          "expected_address": "55 Preston Row, Aldermarsh, NV 89044",
+          "expected_phone": "(555) 019-2201",
+          "note": "nickname trap: signs off 'Jimbo' but legal name James Whitfield is in the body; expected_first_name uses the legal name"
+        },
+        "assert": [],
+        "options": {},
+        "description": "Row #7"
+      },
+      {
+        "vars": {
+          "id": "8",
+          "email": "From: Nadia Brennan <nadia.b@examplemail.com>\nSubject: Please remove my data\n\nHi there,\n\nI'd like all of my personal information deleted from your records. I've moved recently, so for reference my current details are below.\n\nNadia Brennan\n88 Corliss Street, Weatherby, IL 60622",
+          "expected_request_type": "delete",
+          "expected_reply_to": "nadia.b@examplemail.com",
+          "expected_first_name": "Nadia",
+          "expected_last_name": "Brennan",
+          "expected_address": "88 Corliss Street, Weatherby, IL 60622",
+          "expected_phone": "",
+          "note": "missing-data: no phone number anywhere; expected_phone left blank"
+        },
+        "assert": [],
+        "options": {},
+        "description": "Row #8"
+      },
+      {
+        "vars": {
+          "id": "9",
+          "email": "From: sunny_k@example.com\nSubject: my data\n\nhey can you delete whatever info you've got on me? really don't want to be on any lists anymore.\nthanks\nsunny",
+          "expected_request_type": "delete",
+          "expected_reply_to": "sunny_k@example.com",
+          "expected_first_name": "Sunny",
+          "expected_last_name": "",
+          "expected_address": "",
+          "expected_phone": "",
+          "note": "missing-data: only a first name and email; no last name, address, or phone"
+        },
+        "assert": [],
+        "options": {},
+        "description": "Row #9"
+      },
+      {
+        "vars": {
+          "id": "10",
+          "email": "From: Reggie Santos <r.santos@example.net>\nSubject: my information\n\nI don't want you keeping my personal information anymore. Can you sort that out for me?\n\nReggie Santos\n14 Dovecote Lane, Ashby Falls, OR 97501\n(555) 019-8123",
+          "expected_request_type": "delete",
+          "expected_reply_to": "r.santos@example.net",
+          "expected_first_name": "Reggie",
+          "expected_last_name": "Santos",
+          "expected_address": "14 Dovecote Lane, Ashby Falls, OR 97501",
+          "expected_phone": "(555) 019-8123",
+          "note": "ambiguous delete-vs-know: 'don't want you keeping my info anymore' could read as opt-out, but most defensibly maps to deletion"
+        },
+        "assert": [],
+        "options": {},
+        "description": "Row #10"
+      },
+      {
+        "vars": {
+          "id": "11",
+          "email": "From: Carla Nguyen <carla.nguyen@examplemail.com>\nSubject: two requests\n\nHi,\n\nFirst, I'd like to know exactly what personal data you have on file for me. Second, once you've shown me, I want all of it deleted.\n\nThanks,\nCarla Nguyen\n730 Ashfield Blvd, Renton Heights, CO 80014\n(555) 019-5540",
+          "expected_request_type": "delete",
+          "expected_reply_to": "carla.nguyen@examplemail.com",
+          "expected_first_name": "Carla",
+          "expected_last_name": "Nguyen",
+          "expected_address": "730 Ashfield Blvd, Renton Heights, CO 80014",
+          "expected_phone": "(555) 019-5540",
+          "note": "mixed request: asks to KNOW then DELETE; ground truth set to 'delete' as the ultimate action (a 'know' answer may also be defensible)"
+        },
+        "assert": [],
+        "options": {},
+        "description": "Row #11"
+      },
+      {
+        "vars": {
+          "id": "12",
+          "email": "From: Derek Paulson <d.paulson@example.com>\nSubject: Fwd: Re: Re: inquiry\n\n---------- Forwarded message ---------\nFrom: Derek Paulson <d.paulson@example.com>\nDate: Tue, Jun 24, 2026\nSubject: Re: Re: inquiry\nTo: Support <support@megacorp.example.com>\n\n\nhi -   sorry for the mess of a thread below. bottom line, i want you to DELETE all of my personal data. you can reach me at this same address.\n\nthanks,\nDerek\n\n\n> On Jun 23, 2026, support@megacorp.example.com wrote:\n> Thanks for reaching out! Can you confirm your request?\n>\n>> On Jun 22, 2026, Derek Paulson wrote:\n>> hello i have a question about my privacy\n>>\n\nDerek Paulson\nSenior Logistics Coordinator  |  Megacorp Industries LLC\nDirect: (555) 019-0074   |   Mobile: (555) 019-0088\n1400 Corporate Plaza, Suite 900, Fenwick, GA 30301\nThis email and any attachments are confidential and intended solely for the addressee. If you have received this message in error, please notify the sender and delete all copies. Megacorp Industries LLC does not accept liability for any damage caused by this email.",
+          "expected_request_type": "delete",
+          "expected_reply_to": "d.paulson@example.com",
+          "expected_first_name": "Derek",
+          "expected_last_name": "Paulson",
+          "expected_address": "1400 Corporate Plaza, Suite 900, Fenwick, GA 30301",
+          "expected_phone": "(555) 019-0074",
+          "note": "messy forwarded email with quoted-reply junk and corporate signature noise; signature has two numbers (Direct + Mobile), Direct line used as expected_phone"
+        },
+        "assert": [],
+        "options": {},
+        "description": "Row #12"
+      }
+    ],
+    "env": {},
+    "defaultTest": {
+      "options": {
+        "provider": {
+          "id": "openai:chat:google/gemma-3-4b",
+          "config": {
+            "apiBaseUrl": "http://localhost:1234/v1",
+            "apiKey": "[REDACTED]",
+            "temperature": 0
+          }
+        },
+        "transform": "String(output).replace(/```json/gi, \"\").replace(/```/g, \"\").trim()"
+      },
+      "assert": [
+        {
+          "type": "is-json"
+        },
+        {
+          "type": "llm-rubric",
+          "value": "You are checking whether an email-extraction result is correct.\nThe SUBMITTED output is a JSON object with fields: request_type,\nreply_to, first_name, last_name, address, phone.\n\nCompare it against these EXPECTED values:\n  request_type = \"{{expected_request_type}}\"\n  reply_to     = \"{{expected_reply_to}}\"\n  first_name   = \"{{expected_first_name}}\"\n  last_name    = \"{{expected_last_name}}\"\n  address      = \"{{expected_address}}\"\n  phone        = \"{{expected_phone}}\"\n\nGrading rules:\n- request_type must equal the expected string exactly (\"delete\" or \"know\").\n- reply_to must equal the expected email address (ignore case).\n- first_name and last_name must match the expected name.\n- address and phone may differ in minor formatting but must be the same\n  information.\n- IMPORTANT: wherever an EXPECTED value above is blank/empty, the output\n  field MUST be null (or empty). If the model put an invented value in a\n  field that was supposed to be empty, that is a FAIL.\n\nPASS only if every field is correct. If any field is wrong, missing, or\ninvented, FAIL. Respond with your judgment.\n"
+        }
+      ],
+      "vars": {},
+      "metadata": {}
+    },
+    "outputPath": [
+      "results.json"
+    ],
+    "extensions": [],
+    "metadata": {},
+    "evaluateOptions": {}
+  },
+  "shareableUrl": null,
+  "metadata": {
+    "promptfooVersion": "0.121.17",
+    "nodeVersion": "v26.3.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "exportedAt": "2026-07-06T00:35:46.426Z",
+    "evaluationCreatedAt": "2026-07-06T00:34:53.758Z"
+  },
+  "vars": [
+    "id",
+    "email",
+    "expected_request_type",
+    "expected_reply_to",
+    "expected_first_name",
+    "expected_last_name",
+    "expected_address",
+    "expected_phone",
+    "note"
+  ],
+  "runtimeOptions": {
+    "eventSource": "cli",
+    "showProgressBar": false,
+    "repeat": 1,
+    "maxConcurrency": 4,
+    "cache": true
+  }
+}

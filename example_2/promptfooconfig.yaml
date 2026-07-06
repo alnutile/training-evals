@@ -1,0 +1,66 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+description: Opt-out email extraction — structured JSON, graded by a LOCAL model
+
+# The extractor under test. system prompt (extraction-prompt.txt) + the raw
+# email are assembled by prompt.js.
+prompts:
+  - id: file://prompt.js
+    label: extractor
+
+providers:
+  # Target model is still claude-sonnet-5 via the API. Custom provider because
+  # promptfoo's built-in anthropic provider always sends `temperature`, which
+  # sonnet-5 rejects.
+  - id: file://provider.js
+    label: sonnet-5-target
+    config:
+      model: claude-sonnet-5
+      max_tokens: 500
+
+defaultTest:
+  options:
+    # JUDGE = LOCAL model served by LM Studio (OpenAI-compatible). Free to run.
+    # NOTE: spec said gemma-3-12b; LM Studio currently has google/gemma-3-4b
+    # loaded, so we use that. Swap the id below if you load the 12b.
+    provider:
+      id: openai:chat:google/gemma-3-4b
+      config:
+        apiBaseUrl: http://localhost:1234/v1
+        apiKey: lm-studio
+        temperature: 0
+    # Strip any accidental ```json fences before assertions run.
+    transform: 'String(output).replace(/```json/gi, "").replace(/```/g, "").trim()'
+  assert:
+    # Deterministic guardrail (no model needed): output must be valid JSON.
+    - type: is-json
+    # Semantic grading by the local model against the CSV ground truth.
+    - type: llm-rubric
+      value: |
+        You are checking whether an email-extraction result is correct.
+        The SUBMITTED output is a JSON object with fields: request_type,
+        reply_to, first_name, last_name, address, phone.
+
+        Compare it against these EXPECTED values:
+          request_type = "{{expected_request_type}}"
+          reply_to     = "{{expected_reply_to}}"
+          first_name   = "{{expected_first_name}}"
+          last_name    = "{{expected_last_name}}"
+          address      = "{{expected_address}}"
+          phone        = "{{expected_phone}}"
+
+        Grading rules:
+        - request_type must equal the expected string exactly ("delete" or "know").
+        - reply_to must equal the expected email address (ignore case).
+        - first_name and last_name must match the expected name.
+        - address and phone may differ in minor formatting but must be the same
+          information.
+        - IMPORTANT: wherever an EXPECTED value above is blank/empty, the output
+          field MUST be null (or empty). If the model put an invented value in a
+          field that was supposed to be empty, that is a FAIL.
+
+        PASS only if every field is correct. If any field is wrong, missing, or
+        invented, FAIL. Respond with your judgment.
+
+# All 12 test emails come straight from the CSV; each column is a var and the
+# expected_* columns feed the rubric above.
+tests: file://data/sample-emails.csv
